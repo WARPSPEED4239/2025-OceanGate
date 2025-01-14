@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.SpinPivotMotor;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Joint;
+import frc.robot.commands.SpinPivotMotor;
 
 public class RobotContainer {
     private double MaxSpeed = 0.5;//TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -36,6 +38,8 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    public final Joint mJoint = new Joint();
 
     public RobotContainer() {
 
@@ -74,6 +78,9 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        joystick.povLeft().whileTrue(new SpinPivotMotor(mJoint, 0.15));
+        joystick.povRight().whileTrue(new SpinPivotMotor(mJoint, 0.15));
     }
 
     public Command getAutonomousCommand() {
