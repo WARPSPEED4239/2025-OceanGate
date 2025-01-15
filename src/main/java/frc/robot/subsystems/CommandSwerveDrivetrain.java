@@ -251,12 +251,4 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
-
-    private Pose2d getPose() {
-        return this.getState().Pose;
-    }
-
-    // private void resetPose() {
-    //     this.getState().
-    // }
 }
