@@ -24,8 +24,8 @@ public class TunerConstants {
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(100).withKI(0).withKD(0.5)  // OLD : KP 100 ; KI 0; KD 0.5
-        .withKS(0.1).withKV(2.66).withKA(0) // OLD : KS 0.1 ; KV 2.66 ; KA 0.0
+        .withKP(100).withKI(0).withKD(0.0)  // OLD : KP 100 ; KI 0; KD 0.5
+        .withKS(0.0).withKV(0.0).withKA(0) // OLD : KS 0.1 ; KV 2.66 ; KA 0.0
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     private static final Slot0Configs driveGains = new Slot0Configs() 
         .withKP(0.1).withKI(0).withKD(0) // OLD : KP 0.1 ; KI 0.0 ; KD 0.0
