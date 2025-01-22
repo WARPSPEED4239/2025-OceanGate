@@ -42,7 +42,7 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        autoChooser = AutoBuilder.buildAutoChooser("Test");
+        autoChooser = AutoBuilder.buildAutoChooser("Auto Chooser");
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
