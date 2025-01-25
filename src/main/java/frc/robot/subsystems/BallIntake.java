@@ -24,11 +24,6 @@ public class BallIntake extends SubsystemBase {
     mBallIntake.stopMotor();
   }
 
-  public void setWheelSpeed(double topSpeed, double bottomSpeed) {
-    mBallIntake.set(topSpeed);
-    mBallIntake.set(bottomSpeed);
-  }
-
   @Override
   public void periodic() {}
 
