@@ -14,8 +14,11 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.MoveClimber;
+import frc.robot.commands.MoveExtender;
 import frc.robot.commands.SpinPivotMotor;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber;
@@ -37,7 +40,8 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController mController = new CommandXboxController(0);
+    private final CommandJoystick mJoystick = new CommandJoystick(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -46,6 +50,8 @@ public class RobotContainer {
     private final Extender mExtender = new Extender();
 
     public RobotContainer() {
+        mClimber.setDefaultCommand(new MoveClimber(mClimber, 0.0));
+        mExtender.setDefaultCommand(new MoveExtender(mExtender, 0.0));
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
@@ -60,31 +66,34 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-mController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-mController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-mController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        mController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        mController.b().whileTrue(drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(-mController.getLeftY(), -mController.getLeftX()))
         ));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        mController.back().and(mController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        mController.back().and(mController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        mController.start().and(mController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        mController.start().and(mController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        mController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
-
-        joystick.povLeft().whileTrue(new SpinPivotMotor(mJoint, 0.15));
-        joystick.povRight().whileTrue(new SpinPivotMotor(mJoint, 0.15));
+        mJoystick.button(5).whileTrue(new SpinPivotMotor(mJoint, 0.10));
+        mJoystick.button(3).whileTrue(new SpinPivotMotor(mJoint, -0.10));
+        mJoystick.button(6).whileTrue(new MoveClimber(mClimber, 0.10));
+        mJoystick.button(4).whileTrue(new MoveClimber(mClimber, -0.10));
+        mJoystick.button(1).whileTrue(new MoveExtender(mExtender, 0.10));
+        mJoystick.button(2).whileTrue(new MoveExtender(mExtender, -0.10));
     }
 
     public Command getAutonomousCommand() {

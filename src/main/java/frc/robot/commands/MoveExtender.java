@@ -8,7 +8,7 @@ public class MoveExtender extends Command {
   private double mSpeed;
   private final Extender mExtenderMotor;
 
-  public MoveExtender(double speed, Extender extender) {
+  public MoveExtender(Extender extender, double speed) {
     mExtenderMotor = extender;
     mSpeed = speed;
     addRequirements(mExtenderMotor); 
