@@ -36,6 +36,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandJoystick mJoystick = new CommandJoystick(Constants.JOYSTICK);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -46,6 +47,7 @@ public class RobotContainer {
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
+        mBallIntake.setDefaultCommand(new BIntake(mBallIntake, 0.0));
 
         configureBindings();
     }
@@ -81,7 +83,6 @@ public class RobotContainer {
 
         mJoystick.button(5).whileTrue(new BIntake(mBallIntake, 5));
         mJoystick.button(3).whileTrue(new BIntake(mBallIntake, -5));
-        mBallIntake.setDefaultCommand(new BIntake(mBallIntake, 0.0));
     }
 
     public Command getAutonomousCommand() {
