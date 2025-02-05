@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.SpinPivotMotor;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Extender;
 import frc.robot.subsystems.Joint;
 import frc.robot.commands.SpinPivotMotor;
 
@@ -40,6 +42,8 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public final Joint mJoint = new Joint();
+    private final Climber mClimber = new Climber();
+    private final Extender mExtender = new Extender();
 
     public RobotContainer() {
 
