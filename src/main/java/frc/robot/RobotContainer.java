@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.BIntake;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.BallIntake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
@@ -36,6 +38,8 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    private final BallIntake mBallIntake = new BallIntake();
 
     public RobotContainer() {
 
@@ -74,6 +78,10 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        mJoystick.button(5).whileTrue(new BIntake(mBallIntake, 5));
+        mJoystick.button(3).whileTrue(new BIntake(mBallIntake, -5));
+        mBallIntake.setDefaultCommand(new BIntake(mBallIntake, 0.0));
     }
 
     public Command getAutonomousCommand() {
