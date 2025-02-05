@@ -18,10 +18,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.BIntake;
 import frc.robot.commands.CIntake;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.BallIntake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralIntake;
 
@@ -29,7 +27,6 @@ public class RobotContainer {
     private double MaxSpeed = 0.5;//TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
-    private final BallIntake mBallIntake = new BallIntake();
     private final CoralIntake mCoralIntake = new CoralIntake();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -48,7 +45,6 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        mBallIntake.setDefaultCommand(new BIntake(mBallIntake, 0.0));
         mCoralIntake.setDefaultCommand(new CIntake(mCoralIntake, 0.0));
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
@@ -60,8 +56,6 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        mJoystick.button(5).whileTrue(new BIntake(mBallIntake, 5));
-        mJoystick.button(3).whileTrue(new BIntake(mBallIntake, -5));
         mJoystick.button(6).whileTrue(new CIntake(mCoralIntake, 5));
         mJoystick.button(4).whileTrue(new CIntake(mCoralIntake, -5));
 
