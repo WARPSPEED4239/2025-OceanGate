@@ -20,6 +20,14 @@ public class Arm extends SubsystemBase {
     mArm.setNeutralMode(NeutralModeValue.Brake);
   }
 
+  public double getEncoderValue() {
+    return mArm.get();
+  }
+
+  public void setEncoderValue(double encoderValue) {
+    mArm.setPosition(encoderValue);
+  }
+
   public void setSpeed(double speed) {
     mArm.set(speed);
   }
