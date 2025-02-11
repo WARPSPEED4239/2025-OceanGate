@@ -19,6 +19,7 @@ public class Constants {
         CLIMBER_MOTOR = 39,
 
         LIMIT_SWITCH_IN = 19,
+        LIMIT_SWITCH_MIDDLE = 19,
         LIMIT_SWITCH_OUT = 9;
     
 }
