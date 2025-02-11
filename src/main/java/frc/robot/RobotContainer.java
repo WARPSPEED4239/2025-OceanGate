@@ -12,13 +12,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.CIntake;
+import frc.robot.commands.CoralWheelsSetSpeed;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralIntake;
@@ -45,7 +44,7 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        mCoralIntake.setDefaultCommand(new CIntake(mCoralIntake, 0.0));
+        mCoralIntake.setDefaultCommand(new CoralWheelsSetSpeed(mCoralIntake, 0.0));
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
@@ -56,8 +55,8 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        mJoystick.button(6).whileTrue(new CIntake(mCoralIntake, 5));
-        mJoystick.button(4).whileTrue(new CIntake(mCoralIntake, -5));
+        mJoystick.button(6).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 5));
+        mJoystick.button(4).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -5));
 
 
         // Note that X is defined as forward according to WPILib convention,
@@ -85,6 +84,8 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        joystick.a().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.1));
+        joystick.b().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.1));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

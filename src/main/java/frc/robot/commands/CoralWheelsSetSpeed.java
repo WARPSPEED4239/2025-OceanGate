@@ -4,12 +4,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralIntake;
 
-public class CIntake extends Command {
+public class CoralWheelsSetSpeed extends Command {
   
   private final CoralIntake mCoralIntake;
   private double  mSpeed;
   
-  public CIntake(CoralIntake coralintake, double speed) {
+  public CoralWheelsSetSpeed(CoralIntake coralintake, double speed) {
     mCoralIntake = coralintake;
     mSpeed = speed;
     addRequirements(mCoralIntake);

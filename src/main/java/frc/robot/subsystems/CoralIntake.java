@@ -22,11 +22,6 @@ public class CoralIntake extends SubsystemBase {
   public void stopMotor() {
     mCoralIntake.stopMotor();
   }
-
-  public void setWheelSpeed(double topSpeed, double bottomSpeed) {
-    mCoralIntake.set(topSpeed);
-    mCoralIntake.set(bottomSpeed);
-  }
   
   @Override
   public void periodic() {}
