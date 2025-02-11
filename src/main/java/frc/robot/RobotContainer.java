@@ -5,10 +5,8 @@
 package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,15 +15,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.MoveClimber;
-import frc.robot.commands.MoveExtender;
-import frc.robot.commands.SpinPivotMotor;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Extender;
 import frc.robot.subsystems.Joint;
-import frc.robot.commands.SpinPivotMotor;
 
 public class RobotContainer {
     private double MaxSpeed = 0.5;//TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -46,12 +38,8 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public final Joint mJoint = new Joint();
-    private final Climber mClimber = new Climber();
-    private final Extender mExtender = new Extender();
 
     public RobotContainer() {
-        mClimber.setDefaultCommand(new MoveClimber(mClimber, 0.0));
-        mExtender.setDefaultCommand(new MoveExtender(mExtender, 0.0));
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
@@ -88,12 +76,6 @@ public class RobotContainer {
         mController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
-        mJoystick.button(5).whileTrue(new SpinPivotMotor(mJoint, 0.10));
-        mJoystick.button(3).whileTrue(new SpinPivotMotor(mJoint, -0.10));
-        mJoystick.button(6).whileTrue(new MoveClimber(mClimber, 0.10));
-        mJoystick.button(4).whileTrue(new MoveClimber(mClimber, -0.10));
-        mJoystick.button(1).whileTrue(new MoveExtender(mExtender, 0.10));
-        mJoystick.button(2).whileTrue(new MoveExtender(mExtender, -0.10));
     }
 
     public Command getAutonomousCommand() {
