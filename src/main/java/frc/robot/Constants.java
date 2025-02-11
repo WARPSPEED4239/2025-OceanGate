@@ -8,6 +8,7 @@ public class Constants {
         PIVOT_MOTOR = 99,
 
         REV_THROUGH_BORE_ENCODER = 16,
+        LIFT_LIMIT = 99,
 
         BALL_INTAKE_MOTOR = 69,
 
