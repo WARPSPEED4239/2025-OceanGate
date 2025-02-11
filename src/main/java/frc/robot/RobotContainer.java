@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.BIntake;
+import frc.robot.commands.BallIntakeSetSpeed;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BallIntake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -47,7 +47,7 @@ public class RobotContainer {
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
-        mBallIntake.setDefaultCommand(new BIntake(mBallIntake, 0.0));
+        mBallIntake.setDefaultCommand(new BallIntakeSetSpeed(mBallIntake, 0.0));
 
         configureBindings();
     }
@@ -81,8 +81,8 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        mJoystick.button(5).whileTrue(new BIntake(mBallIntake, 5));
-        mJoystick.button(3).whileTrue(new BIntake(mBallIntake, -5));
+        mJoystick.button(5).whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.1));
+        mJoystick.button(3).whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.1));
     }
 
     public Command getAutonomousCommand() {

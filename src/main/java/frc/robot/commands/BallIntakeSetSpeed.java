@@ -3,13 +3,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BallIntake;
 
-public class BIntake extends Command {
+public class BallIntakeSetSpeed extends Command {
   
   private final BallIntake mBallIntake;
   private double mSpeed;
 
-  public BIntake(BallIntake bintake, double speed) {
-     mBallIntake = bintake;
+  public BallIntakeSetSpeed(BallIntake ballIntake, double speed) {
+     mBallIntake = ballIntake;
      mSpeed = speed;
      addRequirements(mBallIntake);
   }
