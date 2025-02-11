@@ -34,6 +34,16 @@ public class MoveArm extends Command {
       mArm.setEncoderValue(100.0);
     }
 
+    if(mGoalPosition > mEncoderValue) {
+      mArm.setOutputWithLimitSensors(mSpeed);
+    } else if(mGoalPosition < mEncoderValue) {
+      mArm.setOutputWithLimitSensors(-mSpeed);
+    } else {
+      mArm.setOutputWithLimitSensors(0.0);
+      mArm.stopMotor();
+      mEnd = true;
+    }
+
   }
 
   @Override
