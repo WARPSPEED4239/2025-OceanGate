@@ -26,6 +26,22 @@ public class MoveArm extends Command {
     } else {
       mArm.setSpeed(mSpeed);
     }
+
+    mEncoderValue = mArm.getEncoderValue();
+
+    if (mArm.getBottomLimit()) {
+      mArm.setEncoderValue(0.0);
+    }
+
+    if(mGoalPosition > mEncoderValue) {
+      mArm.setOutputWithLimitSensors(mSpeed);
+    } else if(mGoalPosition < mEncoderValue) {
+      mArm.setOutputWithLimitSensors(-mSpeed);
+    } else {
+      mArm.setOutputWithLimitSensors(0.0);
+      mArm.stopMotor();
+      mEnd = true;
+    }
   }
 
   @Override
