@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.LiftKeepPosition;
 import frc.robot.commands.MoveLift;
 import frc.robot.commands.SetLiftPosition;
 import frc.robot.generated.TunerConstants;
@@ -52,6 +53,7 @@ public class RobotContainer {
         mainCamera.setFPS(10);
 
         mLift.setDefaultCommand(new MoveLift(mLift, 0.0));
+        //mLift.setDefaultCommand(new LiftKeepPosition(mLift));
 
         configureBindings();
     }

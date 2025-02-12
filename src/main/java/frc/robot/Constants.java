@@ -20,5 +20,6 @@ public class Constants {
     public static final double
         kP = 0.0,
         kI = 0.0,
-        kD = 0.0;
+        kD = 0.0,
+        kG = 0.0;
 }

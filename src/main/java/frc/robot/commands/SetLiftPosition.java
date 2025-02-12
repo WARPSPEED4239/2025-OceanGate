@@ -32,10 +32,10 @@ public class SetLiftPosition extends Command {
       mLift.setEncoderValue(0.0);
     }
 
-    if(mGoalPosition > mEncoderValue) {
+    if(mGoalPosition - 2 > mEncoderValue) {
       mLift.setOutputWithLimitSensors(mSpeed);
       System.out.println("0");
-    } else if(mGoalPosition < mEncoderValue) {
+    } else if(mGoalPosition + 2 < mEncoderValue) {
       mLift.setOutputWithLimitSensors(-mSpeed);
       System.out.println("1");
     } else {

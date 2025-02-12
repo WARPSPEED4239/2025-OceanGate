@@ -5,6 +5,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,6 +26,8 @@ public class Lift extends SubsystemBase {
     slot0Configs.kP = Constants.kP;
     slot0Configs.kI = Constants.kI;
     slot0Configs.kD = Constants.kD;
+    slot0Configs.kG = Constants.kG;
+    slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
 
     mLiftMotor.getConfigurator().apply(slot0Configs);
     mLiftMotor.setInverted(true);
@@ -48,9 +51,8 @@ public class Lift extends SubsystemBase {
   }
 
   public void setPosition(double pos) {
-    // ADD WITHLIMITSMOTION THANKS - MIGUEL
     final PositionVoltage request = new PositionVoltage(0).withSlot(0);
-    mLiftMotor.setControl(request.withPosition(pos));
+    mLiftMotor.setControl(request.withPosition(pos).withLimitForwardMotion(getTopLimit()).withLimitReverseMotion(mBottomLimit.get()));
   }
 
   public boolean getBottomLimit() {
