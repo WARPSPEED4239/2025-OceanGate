@@ -30,9 +30,9 @@ public class MoveLift extends Command {
       mLift.setEncoderValue(0.0);
     }
 
-    if(mSpeed > 0.0 && mMotorPosition < 100.0) {
+    if(mSpeed > 0.0 && !mLift.getTopLimit()) {
       mLift.setSpeed(mSpeed);
-    } else if(mSpeed < 0.0 && mMotorPosition > 20.0 && !mLift.getBottomLimit()) {
+    } else if(mSpeed < 0.0 && mMotorPosition > 3.0 && !mLift.getBottomLimit()) {
       mLift.setSpeed(mSpeed);
     } else {
       mLift.stopMotor();

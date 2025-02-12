@@ -22,7 +22,7 @@ import frc.robot.commands.MoveLift;
 import frc.robot.commands.SetLiftPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Lift;                                              // NOAH OWES SAM 1 DOLLAR
 
 public class RobotContainer {
     private double MaxSpeed = 0.5;//TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -85,12 +85,12 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.button(3).whileTrue(new MoveLift(mLift, 0.01));
-        joystick.button(4).whileTrue(new MoveLift(mLift, -0.01));
-        buttonBox.button(1).whileTrue(new SetLiftPosition(mLift, 0.1, 0.0));
-        buttonBox.button(2).whileTrue(new SetLiftPosition(mLift, 0.1, 10.0));
-        buttonBox.button(3).whileTrue(new SetLiftPosition(mLift, 0.1, 20.0));
-        buttonBox.button(4).whileTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        //joystick.button(3).whileTrue(new MoveLift(mLift, -0.25));
+        //joystick.button(4).whileTrue(new MoveLift(mLift, 0.25));
+        buttonBox.button(0).onTrue(new SetLiftPosition(mLift, 0.1, 0.0));
+        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
+        buttonBox.button(3).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
     }
 
     public Command getAutonomousCommand() {
