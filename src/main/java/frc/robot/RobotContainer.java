@@ -51,7 +51,7 @@ public class RobotContainer {
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
 
-        mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
+        mArm.setDefaultCommand(new MoveArm(mArm, 0.0, 0.0));
 
         configureBindings();
     }
@@ -82,7 +82,9 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-        buttonBox.button(5).whileTrue(new MoveArm(mArm, 0.1));
+        buttonBox.button(5).whileTrue(new MoveArm(mArm, 0.1, -50));
+        buttonBox.button(6).whileTrue(new MoveArm(mArm, 0.1, 0.0));
+        buttonBox.button(7).whileTrue(new MoveArm(mArm, 0.1, 50));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

@@ -18,8 +18,8 @@ public class Constants {
         
         CLIMBER_MOTOR = 39,
 
-        LIMIT_SWITCH_IN = 19,
+        LIMIT_SWITCH_LEFT = 19,
         LIMIT_SWITCH_MIDDLE = 19,
-        LIMIT_SWITCH_OUT = 9;
+        LIMIT_SWITCH_RIGHT = 9;
     
 }

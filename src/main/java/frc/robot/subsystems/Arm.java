@@ -10,9 +10,9 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
   private final TalonFX mArm = new TalonFX(Constants.EXTENTION_MOTOR); 
-  private final DigitalInput mLimitIn = new DigitalInput(Constants.LIMIT_SWITCH_IN);
+  private final DigitalInput mLimitLeft = new DigitalInput(Constants.LIMIT_SWITCH_LEFT);
   private final DigitalInput mLimitMiddle = new DigitalInput(Constants.LIMIT_SWITCH_MIDDLE);
-  private final DigitalInput mLimitOut = new DigitalInput(Constants.LIMIT_SWITCH_OUT);
+  private final DigitalInput mLimitRight = new DigitalInput(Constants.LIMIT_SWITCH_RIGHT);
   private final DutyCycleOut mDutyCycle = new DutyCycleOut(0.0);
   
   public Arm() {
@@ -33,19 +33,19 @@ public class Arm extends SubsystemBase {
   }
 
   public void setOutputWithLimitSensors(double speed) {
-    mArm.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(mLimitIn.get()).withLimitReverseMotion(mLimitOut.get()));
+    mArm.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(mLimitLeft.get()).withLimitReverseMotion(mLimitRight.get()));
   }
 
-  public boolean getPositionIn() {
-    return mLimitIn.get();
+  public boolean getPositionLeft() {
+    return mLimitLeft.get();
   }
 
   public boolean getPositionMiddle() {
     return mLimitMiddle.get();
   }
 
-  public boolean getPositionOut() {
-    return mLimitOut.get();
+  public boolean getPositionRight() {
+    return mLimitRight.get();
   }
 
   public double getMotorPosition() {

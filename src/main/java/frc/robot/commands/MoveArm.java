@@ -11,9 +11,10 @@ public class MoveArm extends Command {
   public double mGoalPosition;
   public double mEncoderValue;
 
-  public MoveArm(Arm arm, double speed) {
+  public MoveArm(Arm arm, double speed, double GoalPosition) {
     mArm = arm;
     mSpeed = speed;
+    mGoalPosition = GoalPosition;
     addRequirements(mArm); 
   }
 
@@ -26,17 +27,17 @@ public class MoveArm extends Command {
   public void execute() {
     mEncoderValue = mArm.getEncoderValue();
 
-    if(mArm.getPositionIn()) {
-      mArm.setEncoderValue(0.0);
+    if(mArm.getPositionLeft()) {
+      mArm.setEncoderValue(-100.0);
     } else if(mArm.getPositionMiddle()) {
-      mArm.setEncoderValue(50.0);
-    } else if(mArm.getPositionOut()) {
+      mArm.setEncoderValue(0.0);
+    } else if(mArm.getPositionRight()) {
       mArm.setEncoderValue(100.0);
     }
 
-    if(mGoalPosition > mEncoderValue) {
+    if(mGoalPosition - 2 > mEncoderValue) {
       mArm.setOutputWithLimitSensors(mSpeed);
-    } else if(mGoalPosition < mEncoderValue) {
+    } else if(mGoalPosition + 2 < mEncoderValue) {
       mArm.setOutputWithLimitSensors(-mSpeed);
     } else {
       mArm.setOutputWithLimitSensors(0.0);
