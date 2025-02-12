@@ -85,8 +85,8 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        //joystick.button(3).whileTrue(new MoveLift(mLift, -0.25));
-        //joystick.button(4).whileTrue(new MoveLift(mLift, 0.25));
+        joystick.button(3).whileTrue(new MoveLift(mLift, -0.25));
+        joystick.button(4).whileTrue(new MoveLift(mLift, 0.25));
         buttonBox.button(0).onTrue(new SetLiftPosition(mLift, 0.1, 0.0));
         buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
         buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
