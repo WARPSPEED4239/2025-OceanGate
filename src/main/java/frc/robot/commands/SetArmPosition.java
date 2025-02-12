@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
 
-public class MoveArm extends Command {
+public class SetArmPosition extends Command {
   private double mSpeed;
   private final Arm mArm;
   private boolean mEnd;
   public double mGoalPosition;
   public double mEncoderValue;
 
-  public MoveArm(Arm arm, double speed, double GoalPosition) {
+  public SetArmPosition(Arm arm, double speed, double GoalPosition) {
     mArm = arm;
     mSpeed = speed;
     mGoalPosition = GoalPosition;
