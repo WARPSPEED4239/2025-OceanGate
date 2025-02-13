@@ -16,11 +16,7 @@ public class Constants {
         LIFT_MOTOR = 14,
 
         EXTENTION_MOTOR = 29;
-    
+
     public static final double
-        kP = 0.2,
-        kI = 0.0,
-        kD = 0.005,
-        kG = 0.0,
-        kS = 0.0;
+        LIFT_ENCODER_TOP_LIMIT = 230.0;
 }

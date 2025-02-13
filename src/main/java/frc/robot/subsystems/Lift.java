@@ -1,21 +1,14 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.TalonFXS;
-import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants;
-import frc.robot.generated.TunerConstants;
 
 public class Lift extends SubsystemBase {
 
@@ -24,16 +17,21 @@ public class Lift extends SubsystemBase {
   private final DutyCycleOut mDutyCyle = new DutyCycleOut(0.0);
   
   public Lift() {
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kP = Constants.kP;
-    slot0Configs.kI = Constants.kI;
-    slot0Configs.kD = Constants.kD;
-    slot0Configs.kG = Constants.kG;
-    slot0Configs.kS = Constants.kS;
-    slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
-    slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+    var talonFXConfigs = new TalonFXConfiguration();
+    var slot0Configs = talonFXConfigs.Slot0;
+    var motionMagicConfigs = talonFXConfigs.MotionMagic;
+    slot0Configs.kG = 0.02;
+    slot0Configs.kS = 0.25;
+    slot0Configs.kV = 0.12;
+    slot0Configs.kA = 0.01;
+    slot0Configs.kP = 2.0; // 2.0
+    slot0Configs.kI = 0.0;
+    slot0Configs.kD = 0.1;
+    motionMagicConfigs.MotionMagicCruiseVelocity = 160; //80
+    motionMagicConfigs.MotionMagicAcceleration = 250; // 160
+    motionMagicConfigs.MotionMagicJerk = 1600; //0
 
-    mLiftMotor.getConfigurator().apply(slot0Configs);
+    mLiftMotor.getConfigurator().apply(talonFXConfigs);
     mLiftMotor.setInverted(true);
     mLiftMotor.setNeutralMode(NeutralModeValue.Brake);
   }
@@ -46,6 +44,11 @@ public class Lift extends SubsystemBase {
     mLiftMotor.setControl(mDutyCyle.withOutput(speed).withLimitForwardMotion(getTopLimit()).withLimitReverseMotion(mBottomLimit.get()));
   }
 
+  public void setPosition(double pos) {
+    final MotionMagicVoltage request = new MotionMagicVoltage(0);
+    mLiftMotor.setControl(request.withPosition(pos));
+  }
+
   public double getEncoderValue() {
     return mLiftMotor.getPosition().getValueAsDouble();
   }
@@ -54,17 +57,12 @@ public class Lift extends SubsystemBase {
     mLiftMotor.setPosition(encoderValue);
   }
 
-  public void setPosition(double pos) {
-    final PositionVoltage request = new PositionVoltage(pos).withSlot(0);
-    mLiftMotor.setControl(request.withPosition(pos).withLimitForwardMotion(getTopLimit()).withLimitReverseMotion(mBottomLimit.get()));
-  }
-
   public boolean getBottomLimit() {
     return mBottomLimit.get();
   }
 
   public boolean getTopLimit() {
-    if(getEncoderValue() > 230.0) {
+    if(getEncoderValue() > Constants.LIFT_ENCODER_TOP_LIMIT) {
       return true;
     }
     return false;
@@ -76,6 +74,6 @@ public class Lift extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getEncoderValue());
+    SmartDashboard.putBoolean("LiftLimitDown", getBottomLimit());
   }
 }

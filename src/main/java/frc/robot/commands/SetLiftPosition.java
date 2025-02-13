@@ -6,10 +6,10 @@ import frc.robot.subsystems.Lift;
 public class SetLiftPosition extends Command {
 
   private final Lift mLift;
-  private double mSpeed;
   private boolean mEnd;
-  private double mEncoderValue;
   private double mGoalPosition;
+  double mSpeed;
+  double mStartingPosition;
   
   
   public SetLiftPosition(Lift lift, double speed, double goalPosition) {
@@ -21,22 +21,21 @@ public class SetLiftPosition extends Command {
 
   @Override
   public void initialize() {
+    mStartingPosition = mLift.getEncoderValue();
     mEnd = false;
     mLift.setPosition(mGoalPosition);
   }
 
   @Override
   public void execute() {
-    mEncoderValue = mLift.getEncoderValue();
-
-    if (mLift.getBottomLimit()) {
+    if (mLift.getBottomLimit() && mStartingPosition > mLift.getEncoderValue()) {
       mLift.setEncoderValue(0.0);
+      mEnd = true;
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    mLift.setOutputWithLimitSensors(0.0);
     mLift.stopMotor();
   }
 

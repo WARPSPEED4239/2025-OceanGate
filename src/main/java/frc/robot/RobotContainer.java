@@ -1,14 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -88,7 +82,7 @@ public class RobotContainer {
 
         joystick.button(3).whileTrue(new MoveLift(mLift, -0.1));
         joystick.button(4).whileTrue(new MoveLift(mLift, 0.1));
-        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, 0.0));
+        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
         buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
         buttonBox.button(3).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
         buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
