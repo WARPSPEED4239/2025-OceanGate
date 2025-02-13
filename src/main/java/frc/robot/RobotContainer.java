@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.LiftKeepPosition;
 import frc.robot.commands.MoveLift;
 import frc.robot.commands.SetLiftPosition;
 import frc.robot.generated.TunerConstants;
@@ -87,12 +86,12 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.button(3).whileTrue(new MoveLift(mLift, -0.25));
-        joystick.button(4).whileTrue(new MoveLift(mLift, 0.25));
-        buttonBox.button(0).onTrue(new SetLiftPosition(mLift, 0.1, 0.0));
-        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
-        buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
-        buttonBox.button(3).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
+        joystick.button(3).whileTrue(new MoveLift(mLift, -0.1));
+        joystick.button(4).whileTrue(new MoveLift(mLift, 0.1));
+        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, 0.0));
+        buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        buttonBox.button(3).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
+        buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
     }
 
     public Command getAutonomousCommand() {

@@ -22,6 +22,7 @@ public class SetLiftPosition extends Command {
   @Override
   public void initialize() {
     mEnd = false;
+    mLift.setPosition(mGoalPosition);
   }
 
   @Override
@@ -30,19 +31,6 @@ public class SetLiftPosition extends Command {
 
     if (mLift.getBottomLimit()) {
       mLift.setEncoderValue(0.0);
-    }
-
-    if(mGoalPosition - 2 > mEncoderValue) {
-      mLift.setOutputWithLimitSensors(mSpeed);
-      System.out.println("0");
-    } else if(mGoalPosition + 2 < mEncoderValue) {
-      mLift.setOutputWithLimitSensors(-mSpeed);
-      System.out.println("1");
-    } else {
-      mLift.setOutputWithLimitSensors(0.0);
-      mLift.stopMotor();
-      mEnd = true;
-      System.out.println("2");
     }
   }
 

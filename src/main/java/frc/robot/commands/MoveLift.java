@@ -24,7 +24,7 @@ public class MoveLift extends Command {
   @Override
   public void execute() {
     mMotorPosition = mLift.getEncoderValue();
-    System.out.println("Encoder Value: " + mMotorPosition);
+    //System.out.println("Encoder Value: " + mMotorPosition);
 
     if (mLift.getBottomLimit()) {
       mLift.setEncoderValue(0.0);

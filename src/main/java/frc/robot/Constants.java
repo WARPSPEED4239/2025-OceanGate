@@ -18,8 +18,9 @@ public class Constants {
         EXTENTION_MOTOR = 29;
     
     public static final double
-        kP = 0.0,
+        kP = 0.2,
         kI = 0.0,
-        kD = 0.0,
-        kG = 0.0;
+        kD = 0.005,
+        kG = 0.0,
+        kS = 0.0;
 }
