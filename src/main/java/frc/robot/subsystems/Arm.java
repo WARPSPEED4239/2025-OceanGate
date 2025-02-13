@@ -1,71 +1,79 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
-  private final TalonFX mArm = new TalonFX(Constants.EXTENTION_MOTOR); 
+  private final TalonFX mArmMotor = new TalonFX(Constants.EXTENTION_MOTOR); 
   private final DigitalInput mLimitLeft = new DigitalInput(Constants.LIMIT_SWITCH_LEFT);
   private final DigitalInput mLimitMiddle = new DigitalInput(Constants.LIMIT_SWITCH_MIDDLE);
   private final DigitalInput mLimitRight = new DigitalInput(Constants.LIMIT_SWITCH_RIGHT);
   private final DutyCycleOut mDutyCycle = new DutyCycleOut(0.0);
   
   public Arm() {
-    mArm.setInverted(false);
-    mArm.setNeutralMode(NeutralModeValue.Brake);
-  }
+    var talonFXConfigs = new TalonFXConfiguration();
+    var slot0Configs = talonFXConfigs.Slot0;
+    var motionMagicConfigs = talonFXConfigs.MotionMagic;
+    slot0Configs.kG = 0.02;
+    slot0Configs.kS = 0.25;
+    slot0Configs.kV = 0.12;
+    slot0Configs.kA = 0.01;
+    slot0Configs.kP = 2.0; // 2.0
+    slot0Configs.kI = 0.0;
+    slot0Configs.kD = 0.1;
+    slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
+    motionMagicConfigs.MotionMagicCruiseVelocity = 160; //80
+    motionMagicConfigs.MotionMagicAcceleration = 250; // 160
+    motionMagicConfigs.MotionMagicJerk = 1600; //0
 
-  public double getEncoderValue() {
-    return mArm.get();
-  }
-
-  public void setEncoderValue(double encoderValue) {
-    mArm.setPosition(encoderValue);
+    mArmMotor.getConfigurator().apply(talonFXConfigs);
+    mArmMotor.setInverted(false);
+    mArmMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   public void setSpeed(double speed) {
-    mArm.set(speed);
+    mArmMotor.set(speed);
   }
 
   public void setOutputWithLimitSensors(double speed) {
-    mArm.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(mLimitLeft.get()).withLimitReverseMotion(mLimitRight.get()));
+    mArmMotor.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(mLimitLeft.get()).withLimitReverseMotion(mLimitRight.get()));
+  }
+  
+  public void setPosition(double pos) {
+    final MotionMagicVoltage request = new MotionMagicVoltage(0);
+    mArmMotor.setControl(request.withPosition(pos));
   }
 
-  public boolean getPositionLeft() {
+  public double getEncoderValue() {
+    return mArmMotor.getPosition().getValueAsDouble();
+  }
+
+  public void setEncoderValue(double encoderValue) {
+    mArmMotor.setPosition(encoderValue);
+  }
+
+  public boolean getLeftLimit() {
     return mLimitLeft.get();
   }
 
-  public boolean getPositionMiddle() {
+  public boolean getMiddleLimit() {
     return mLimitMiddle.get();
   }
 
-  public boolean getPositionRight() {
+  public boolean getRightLimit() {
     return mLimitRight.get();
   }
 
-  public double getMotorPosition() {
-    return mArm.get();
-  }
-
-  public void setPositionIn(double position) {
-    mArm.setPosition(position);
-  }
-
-  public void setPossitionMiddle(double position) {
-    mArm.setPosition(position);
-  }
- 
-  public void setPositionOut(double position) {
-    mArm.setPosition(position);
-  }
-
   public void stopMotor() {
-    mArm.stopMotor();
+    mArmMotor.stopMotor();
   }
 
   @Override

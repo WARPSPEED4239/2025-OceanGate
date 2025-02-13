@@ -10,6 +10,7 @@ public class SetArmPosition extends Command {
   private boolean mEnd;
   public double mGoalPosition;
   public double mEncoderValue;
+  double mStartingPosition;
 
   public SetArmPosition(Arm arm, double speed, double GoalPosition) {
     mArm = arm;
@@ -20,28 +21,21 @@ public class SetArmPosition extends Command {
 
   @Override
   public void initialize() {
+    mStartingPosition = mArm.getEncoderValue();
     mEnd = false;
+    mArm.setPosition(mGoalPosition);
   }
 
   @Override
   public void execute() {
-    mEncoderValue = mArm.getEncoderValue();
-
-    if(mArm.getPositionLeft()) {
-      mArm.setEncoderValue(-100.0);
-    } else if(mArm.getPositionMiddle()) {
-      mArm.setEncoderValue(0.0);
-    } else if(mArm.getPositionRight()) {
-      mArm.setEncoderValue(100.0);
+    if(mArm.getMiddleLimit()) {
+      mArm.setEncoderValue(50.0);
     }
-
-    if(mGoalPosition - 2 > mEncoderValue) {
-      mArm.setOutputWithLimitSensors(mSpeed);
-    } else if(mGoalPosition + 2 < mEncoderValue) {
-      mArm.setOutputWithLimitSensors(-mSpeed);
-    } else {
-      mArm.setOutputWithLimitSensors(0.0);
-      mArm.stopMotor();
+    if (mArm.getLeftLimit() && mStartingPosition > mArm.getEncoderValue()) {
+      mArm.setEncoderValue(0.0);
+      mEnd = true;
+    } else if(mArm.getRightLimit() && mStartingPosition < mArm.getEncoderValue()) {
+      mArm.setEncoderValue(100.0);
       mEnd = true;
     }
 
@@ -49,7 +43,6 @@ public class SetArmPosition extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    mArm.setOutputWithLimitSensors(0.0);
     mArm.stopMotor();
   }
 

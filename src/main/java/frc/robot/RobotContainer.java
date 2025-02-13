@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.ArmStayStill;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -53,7 +53,7 @@ public class RobotContainer {
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
 
-        mArm.setDefaultCommand(new ArmStayStill(mArm, 0.0));
+        mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
 
         configureBindings();
     }
@@ -85,9 +85,11 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
-        buttonBox.button(5).whileTrue(new SetArmPosition(mArm, 0.1, -50));
-        buttonBox.button(6).whileTrue(new SetArmPosition(mArm, 0.1, 0.0));
-        buttonBox.button(7).whileTrue(new SetArmPosition(mArm, 0.1, 50));
+        xboxController.a().whileTrue(new MoveArm(mArm, 0.1));
+        xboxController.b().whileTrue(new MoveArm(mArm, -0.1));
+        buttonBox.button(5).whileTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        buttonBox.button(6).whileTrue(new SetArmPosition(mArm, 0.1, 50.0));
+        buttonBox.button(7).whileTrue(new SetArmPosition(mArm, 0.1, 100));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

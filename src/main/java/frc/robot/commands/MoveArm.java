@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
 
-public class ArmStayStill extends Command {
+public class MoveArm extends Command {
   private final Arm mArm;
   public double mGoalPosition;
-  public double mEncoderValue;
+  public double mMotorPosition;
   private double mSpeed;
   private boolean mEnd;
 
-  public ArmStayStill(Arm arm, double speed) {
+  public MoveArm(Arm arm, double speed) {
     mArm = arm;
     mSpeed = speed;
     addRequirements(mArm); 
@@ -24,31 +24,30 @@ public class ArmStayStill extends Command {
 
   @Override
   public void execute() {
-    mEncoderValue = mArm.getEncoderValue();
+    mMotorPosition = mArm.getEncoderValue();
 
-    if(mArm.getPositionLeft()) {
-      mArm.setEncoderValue(-100.0);
-    } else if(mArm.getPositionMiddle()) {
+    if (mArm.getLeftLimit()) {
       mArm.setEncoderValue(0.0);
-    } else if(mArm.getPositionRight()) {
-      mArm.setEncoderValue(100.0);
+    } else if(mArm.getMiddleLimit()) {
+      mArm.setEncoderValue(50.0); // tune
+    } else if(mArm.getRightLimit()) {
+      mArm.setEncoderValue(100.0); // tune
     }
 
-    if(mGoalPosition - 2 > mEncoderValue) {
+    if(mSpeed < 0.0 && !mArm.getLeftLimit()) {
       mArm.setOutputWithLimitSensors(mSpeed);
-    } else if(mGoalPosition + 2 < mEncoderValue) {
-      mArm.setOutputWithLimitSensors(-mSpeed);
+    } else if(mSpeed > 0.0 && !mArm.getRightLimit()) {
+      mArm.setOutputWithLimitSensors(mSpeed);
     } else {
-      mArm.setOutputWithLimitSensors(0.0);
       mArm.stopMotor();
       mEnd = true;
     }
+
 
   }
 
   @Override
   public void end(boolean interrupted) {
-    mArm.setOutputWithLimitSensors(0.0);
     mArm.stopMotor();
   }
 
