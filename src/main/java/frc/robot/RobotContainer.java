@@ -12,10 +12,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.MoveArm;
-import frc.robot.commands.SetArmPosition;
+import frc.robot.commands.JointMotorSetPosition;
+import frc.robot.commands.JointMotorSetSpeed;
+import frc.robot.commands.ResetEncoderPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Joint;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.SetArmPosition;
 import frc.robot.subsystems.Arm;
 import frc.robot.commands.MoveLift;
 import frc.robot.commands.SetLiftPosition;
@@ -33,14 +37,15 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
-
     private final CommandXboxController xboxController = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
     private final CommandGenericHID buttonBox = new CommandGenericHID(2);
     private final Arm mArm = new Arm();
-
+  
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandGenericHID buttonBox = new CommandGenericHID(2);
 
+    public final Joint mJoint = new Joint();
     private final Lift mLift = new Lift();
 
     public RobotContainer() {
@@ -74,6 +79,9 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
+
+        mJoint.setDefaultCommand(new ResetEncoderPosition(mJoint));
+
         xboxController.back().and(xboxController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         xboxController.back().and(xboxController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         xboxController.start().and(xboxController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
@@ -81,6 +89,8 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+      
+        drivetrain.registerTelemetry(logger::telemeterize);
     
         buttonBox.button(1).whileTrue(new MoveArm(mArm, 0.1));
         buttonBox.button(2).whileTrue(new MoveArm(mArm, -0.1));
@@ -88,17 +98,20 @@ public class RobotContainer {
         buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
         buttonBox.button(5).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
-
         joystick.button(6).whileTrue(new MoveLift(mLift, -0.1));
         joystick.button(7).whileTrue(new MoveLift(mLift, 0.1));
         buttonBox.button(8).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
         buttonBox.button(9).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
         buttonBox.button(10).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
         buttonBox.button(11).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
+        buttonBox.button(12).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
+        buttonBox.button(13).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
+        buttonBox.button(14).onTrue(new JointMotorSetPosition(mJoint, 0.379));
+        buttonBox.button(15).onTrue(new JointMotorSetPosition(mJoint, 0.479));
+        buttonBox.button(16).onTrue(new JointMotorSetPosition(mJoint, 0.579));
     }
 
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        return null;
     }
 }
