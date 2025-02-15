@@ -12,10 +12,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.MoveLift;
-import frc.robot.commands.SetLiftPosition;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Arm;
+import frc.robot.commands.MoveLift;
+import frc.robot.commands.SetLiftPosition;
 import frc.robot.subsystems.Lift;                                              // NOAH OWES SAM 1 DOLLAR
 
 public class RobotContainer {
@@ -34,6 +37,7 @@ public class RobotContainer {
     private final CommandXboxController xboxController = new CommandXboxController(0);
     private final CommandJoystick joystick = new CommandJoystick(1);
     private final CommandGenericHID buttonBox = new CommandGenericHID(2);
+    private final Arm mArm = new Arm();
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -45,8 +49,8 @@ public class RobotContainer {
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
 
+        mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
         mLift.setDefaultCommand(new MoveLift(mLift, 0.0));
-        //mLift.setDefaultCommand(new LiftKeepPosition(mLift));
 
         configureBindings();
     }
@@ -77,6 +81,12 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+    
+        buttonBox.button(10).whileTrue(new MoveArm(mArm, 0.1));
+        buttonBox.button(11).whileTrue(new MoveArm(mArm, -0.1));
+        buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
+        buttonBox.button(5).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        buttonBox.button(6).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
