@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.JointMotorSetPosition;
 import frc.robot.commands.JointMotorSetSpeed;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -81,6 +82,10 @@ public class RobotContainer {
 
         buttonBox.button(1).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
         buttonBox.button(2).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
+
+        buttonBox.button(3).onTrue(new JointMotorSetPosition(mJoint, 0.4));
+        buttonBox.button(4).onTrue(new JointMotorSetPosition(mJoint, 0.5));
+        buttonBox.button(5).onTrue(new JointMotorSetPosition(mJoint, 0.6));
     }
 
     public Command getAutonomousCommand() {
