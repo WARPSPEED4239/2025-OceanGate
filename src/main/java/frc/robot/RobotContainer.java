@@ -82,20 +82,20 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
     
-        buttonBox.button(10).whileTrue(new MoveArm(mArm, 0.1));
-        buttonBox.button(11).whileTrue(new MoveArm(mArm, -0.1));
-        buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
-        buttonBox.button(5).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
-        buttonBox.button(6).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
+        buttonBox.button(1).whileTrue(new MoveArm(mArm, 0.1));
+        buttonBox.button(2).whileTrue(new MoveArm(mArm, -0.1));
+        buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
+        buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        buttonBox.button(5).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.button(3).whileTrue(new MoveLift(mLift, -0.1));
-        joystick.button(4).whileTrue(new MoveLift(mLift, 0.1));
-        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
-        buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
-        buttonBox.button(3).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
-        buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
+        joystick.button(6).whileTrue(new MoveLift(mLift, -0.1));
+        joystick.button(7).whileTrue(new MoveLift(mLift, 0.1));
+        buttonBox.button(8).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
+        buttonBox.button(9).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        buttonBox.button(10).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
+        buttonBox.button(11).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
     }
 
     public Command getAutonomousCommand() {

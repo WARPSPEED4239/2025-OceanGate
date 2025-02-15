@@ -19,11 +19,11 @@ public class Constants {
 
         LIMIT_SWITCH_LEFT = 3,
         LIMIT_SWITCH_MIDDLE = 2,
-        LIMIT_SWITCH_RIGHT = 1;
+        LIMIT_SWITCH_RIGHT = 1,
 
         LIFT_LIMIT = 0,
 
-        LIFT_MOTOR = 14,
+        LIFT_MOTOR = 14;
     public static final double
         LIFT_ENCODER_TOP_LIMIT = 230.0;
 }
