@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Joint;
 
-public class PivotMotorSetSpeed extends Command {
+public class JointMotorSetSpeed extends Command {
 
   private final Joint mJoint;
   private double mSpeed;
 
-  public PivotMotorSetSpeed(Joint joint, double speed) {
+  public JointMotorSetSpeed(Joint joint, double speed) {
     mJoint = joint;
     mSpeed = speed;
     addRequirements(mJoint);
@@ -19,7 +19,7 @@ public class PivotMotorSetSpeed extends Command {
 
   @Override
   public void execute() {
-    mJoint.spinPivotMotor(mSpeed);
+    mJoint.setSpeed(mSpeed);
   }
 
   @Override

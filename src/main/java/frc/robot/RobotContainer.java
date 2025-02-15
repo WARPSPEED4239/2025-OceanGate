@@ -12,9 +12,11 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.JointMotorSetSpeed;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Joint;
@@ -34,8 +36,8 @@ public class RobotContainer {
 
     private final CommandXboxController mController = new CommandXboxController(0);
     private final CommandJoystick mJoystick = new CommandJoystick(0);
-
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandGenericHID buttonBox = new CommandGenericHID(2);
 
     public final Joint mJoint = new Joint();
 
@@ -76,6 +78,9 @@ public class RobotContainer {
         mController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        buttonBox.button(1).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
+        buttonBox.button(2).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
     }
 
     public Command getAutonomousCommand() {
