@@ -17,6 +17,9 @@ import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Arm;
+import frc.robot.commands.MoveLift;
+import frc.robot.commands.SetLiftPosition;
+import frc.robot.subsystems.Lift;                                              // NOAH OWES SAM 1 DOLLAR
 
 public class RobotContainer {
     private double MaxSpeed = 0.5;//TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -38,6 +41,8 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    private final Lift mLift = new Lift();
+
     public RobotContainer() {
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
@@ -45,6 +50,7 @@ public class RobotContainer {
         mainCamera.setFPS(10);
 
         mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
+        mLift.setDefaultCommand(new MoveLift(mLift, 0.0));
 
         configureBindings();
     }
@@ -75,7 +81,7 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-        
+    
         buttonBox.button(10).whileTrue(new MoveArm(mArm, 0.1));
         buttonBox.button(11).whileTrue(new MoveArm(mArm, -0.1));
         buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
@@ -83,6 +89,13 @@ public class RobotContainer {
         buttonBox.button(6).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        joystick.button(3).whileTrue(new MoveLift(mLift, -0.1));
+        joystick.button(4).whileTrue(new MoveLift(mLift, 0.1));
+        buttonBox.button(1).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
+        buttonBox.button(2).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        buttonBox.button(3).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
+        buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
     }
 
     public Command getAutonomousCommand() {

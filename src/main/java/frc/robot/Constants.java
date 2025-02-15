@@ -12,8 +12,7 @@ public class Constants {
 
         BALL_INTAKE_MOTOR = 69,
         CORAL_INTAKE_MOTOR = 59,
-
-        LIFT_MOTOR = 49,
+        
         EXTENTION_MOTOR = 15,
         
         CLIMBER_MOTOR = 39,
@@ -21,5 +20,10 @@ public class Constants {
         LIMIT_SWITCH_LEFT = 3,
         LIMIT_SWITCH_MIDDLE = 2,
         LIMIT_SWITCH_RIGHT = 1;
-    
+
+        LIFT_LIMIT = 0,
+
+        LIFT_MOTOR = 14,
+    public static final double
+        LIFT_ENCODER_TOP_LIMIT = 230.0;
 }
