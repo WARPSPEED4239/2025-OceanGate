@@ -4,7 +4,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -62,8 +61,9 @@ public class Joint extends SubsystemBase {
     return mAbsoluteEncoder.get();
   }
 
-  public void setEncoderValue(double pos) {
-    mJointMotor.setPosition(pos);
+  public void resetEncoderPosition() {
+    double rotarPos = (130.216 * getEncoderValue()) - 65.108;
+    mJointMotor.setPosition(rotarPos);
   }
 
   // add safety feature
