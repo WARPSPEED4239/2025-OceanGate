@@ -25,13 +25,13 @@ public class Joint extends SubsystemBase {
     slot0Configs.kS = 0.25;
     slot0Configs.kV = 0.12;
     slot0Configs.kA = 0.01;
-    slot0Configs.kP = 1.0; //2
+    slot0Configs.kP = 2.0;
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 20; //80
-    motionMagicConfigs.MotionMagicAcceleration = 20; //160
-    motionMagicConfigs.MotionMagicJerk = 0; //1605
+    motionMagicConfigs.MotionMagicCruiseVelocity = 80;
+    motionMagicConfigs.MotionMagicAcceleration = 160;
+    motionMagicConfigs.MotionMagicJerk = 0; //1600
 
     mJointMotor.getConfigurator().apply(talonFXConfigs);
     mJointMotor.setInverted(true);
@@ -42,6 +42,7 @@ public class Joint extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Absolute", getEncoderValue());
     SmartDashboard.putNumber("Rotar", mJointMotor.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("should", ((130.216 * getEncoderValue()) - 65.108));
   }
 
   public void setSpeed(double speed) {
@@ -62,8 +63,11 @@ public class Joint extends SubsystemBase {
   }
 
   public void resetEncoderPosition() {
-    double rotarPos = (130.216 * getEncoderValue()) - 65.108;
-    mJointMotor.setPosition(rotarPos);
+    mJointMotor.setPosition(convertAbsoluteToRotar(getEncoderValue()));
+  }
+
+  public double convertAbsoluteToRotar(double rotar) {
+    return ((130.216 * rotar) - 65.108);
   }
 
   // add safety feature

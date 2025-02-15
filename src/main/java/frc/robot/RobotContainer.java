@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.JointMotorSetPosition;
 import frc.robot.commands.JointMotorSetSpeed;
+import frc.robot.commands.ResetEncoderPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Joint;
@@ -79,13 +80,14 @@ public class RobotContainer {
         mController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+        mJoint.setDefaultCommand(new ResetEncoderPosition(mJoint));
 
         buttonBox.button(1).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
         buttonBox.button(2).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
 
-        buttonBox.button(3).onTrue(new JointMotorSetPosition(mJoint, 0.4));
-        buttonBox.button(4).onTrue(new JointMotorSetPosition(mJoint, 0.5));
-        buttonBox.button(5).onTrue(new JointMotorSetPosition(mJoint, 0.6));
+        buttonBox.button(3).onTrue(new JointMotorSetPosition(mJoint, 0.379));
+        buttonBox.button(4).onTrue(new JointMotorSetPosition(mJoint, 0.479));
+        buttonBox.button(5).onTrue(new JointMotorSetPosition(mJoint, 0.579));
     }
 
     public Command getAutonomousCommand() {
