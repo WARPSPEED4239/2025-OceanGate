@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-
 public class MoveArm extends Command {
   private final Arm mArm;
   public double mGoalPosition;
@@ -27,16 +26,16 @@ public class MoveArm extends Command {
     mMotorPosition = mArm.getEncoderValue();
 
     if (mArm.getLeftLimit()) {
-      mArm.setEncoderValue(0.0);
+      mArm.setEncoderValue(-16.0);
     } else if(mArm.getMiddleLimit()) {
-      mArm.setEncoderValue(50.0); // tune
+      mArm.setEncoderValue(0.0);
     } else if(mArm.getRightLimit()) {
-      mArm.setEncoderValue(100.0); // tune
+      mArm.setEncoderValue(61.0);
     }
 
-    if(mSpeed < 0.0 && !mArm.getLeftLimit()) {
+    if(mSpeed < 0.0 && mMotorPosition > -16.0) {
       mArm.setOutputWithLimitSensors(mSpeed);
-    } else if(mSpeed > 0.0 && !mArm.getRightLimit()) {
+    } else if(mSpeed > 0.0 && mMotorPosition < 61.0) {
       mArm.setOutputWithLimitSensors(mSpeed);
     } else {
       mArm.stopMotor();
@@ -59,4 +58,3 @@ public class MoveArm extends Command {
     return false;
   }
 }
-

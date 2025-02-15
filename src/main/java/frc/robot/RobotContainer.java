@@ -1,17 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
-
-import javax.xml.xpath.XPathVariableResolver;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.pathplanner.lib.path.GoalEndState;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -85,11 +76,11 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
-        xboxController.a().whileTrue(new MoveArm(mArm, 0.1));
-        xboxController.b().whileTrue(new MoveArm(mArm, -0.1));
-        buttonBox.button(5).whileTrue(new SetArmPosition(mArm, 0.1, 0.0));
-        buttonBox.button(6).whileTrue(new SetArmPosition(mArm, 0.1, 50.0));
-        buttonBox.button(7).whileTrue(new SetArmPosition(mArm, 0.1, 100));
+        buttonBox.button(10).whileTrue(new MoveArm(mArm, 0.1));
+        buttonBox.button(11).whileTrue(new MoveArm(mArm, -0.1));
+        buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
+        buttonBox.button(5).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        buttonBox.button(6).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

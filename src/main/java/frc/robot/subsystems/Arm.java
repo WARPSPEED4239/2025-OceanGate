@@ -6,8 +6,8 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
-
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,20 +22,20 @@ public class Arm extends SubsystemBase {
     var talonFXConfigs = new TalonFXConfiguration();
     var slot0Configs = talonFXConfigs.Slot0;
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    slot0Configs.kG = 0.02;
+    slot0Configs.kG = 0.0;
     slot0Configs.kS = 0.25;
     slot0Configs.kV = 0.12;
     slot0Configs.kA = 0.01;
-    slot0Configs.kP = 2.0; // 2.0
+    slot0Configs.kP = 2.0;
     slot0Configs.kI = 0.0;
-    slot0Configs.kD = 0.1;
+    slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 160; //80
-    motionMagicConfigs.MotionMagicAcceleration = 250; // 160
+    motionMagicConfigs.MotionMagicCruiseVelocity = 80;
+    motionMagicConfigs.MotionMagicAcceleration = 160;
     motionMagicConfigs.MotionMagicJerk = 1600; //0
 
     mArmMotor.getConfigurator().apply(talonFXConfigs);
-    mArmMotor.setInverted(false);
+    mArmMotor.setInverted(true);
     mArmMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void setOutputWithLimitSensors(double speed) {
-    mArmMotor.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(mLimitLeft.get()).withLimitReverseMotion(mLimitRight.get()));
+    mArmMotor.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(getLeftLimit()).withLimitReverseMotion(getRightLimit()));
   }
   
   public void setPosition(double pos) {
@@ -61,15 +61,15 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean getLeftLimit() {
-    return mLimitLeft.get();
+    return !mLimitLeft.get();
   }
 
   public boolean getMiddleLimit() {
-    return mLimitMiddle.get();
+    return !mLimitMiddle.get();
   }
 
   public boolean getRightLimit() {
-    return mLimitRight.get();
+    return !mLimitRight.get();
   }
 
   public void stopMotor() {
@@ -77,5 +77,10 @@ public class Arm extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    System.out.println(getEncoderValue());
+    SmartDashboard.putBoolean("Limit Left", getLeftLimit());
+    SmartDashboard.putBoolean("Limit Middle", getMiddleLimit());
+    SmartDashboard.putBoolean("Limit Right", getRightLimit());
+  }
 }

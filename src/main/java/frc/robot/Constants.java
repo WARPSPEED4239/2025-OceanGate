@@ -14,12 +14,12 @@ public class Constants {
         CORAL_INTAKE_MOTOR = 59,
 
         LIFT_MOTOR = 49,
-        EXTENTION_MOTOR = 29,
+        EXTENTION_MOTOR = 15,
         
         CLIMBER_MOTOR = 39,
 
-        LIMIT_SWITCH_LEFT = 19,
-        LIMIT_SWITCH_MIDDLE = 19,
-        LIMIT_SWITCH_RIGHT = 9;
+        LIMIT_SWITCH_LEFT = 3,
+        LIMIT_SWITCH_MIDDLE = 2,
+        LIMIT_SWITCH_RIGHT = 1;
     
 }
