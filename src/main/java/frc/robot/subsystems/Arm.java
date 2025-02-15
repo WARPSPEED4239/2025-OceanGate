@@ -30,8 +30,8 @@ public class Arm extends SubsystemBase {
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 80;
-    motionMagicConfigs.MotionMagicAcceleration = 160;
+    motionMagicConfigs.MotionMagicCruiseVelocity = 60;
+    motionMagicConfigs.MotionMagicAcceleration = 120;
     motionMagicConfigs.MotionMagicJerk = 1600; //0
 
     mArmMotor.getConfigurator().apply(talonFXConfigs);
