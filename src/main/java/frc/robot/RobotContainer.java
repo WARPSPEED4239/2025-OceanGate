@@ -81,8 +81,8 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        mJoystick.button(5).whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.1));
-        mJoystick.button(3).whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.1));
+        mJoystick.button(5).whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75));
+        mJoystick.button(3).whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));
     }
 
     public Command getAutonomousCommand() {
