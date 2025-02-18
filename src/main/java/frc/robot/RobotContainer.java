@@ -84,8 +84,8 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-        joystick.a().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.1));
-        joystick.b().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.1));
+        mJoystick.button(5).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.1));
+        mJoystick.button(3).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.1));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

@@ -11,7 +11,7 @@ public class Constants {
 
         BALL_INTAKE_MOTOR = 69,
 
-        CORAL_INTAKE_MOTOR = 59,
+        CORAL_INTAKE_MOTOR = 17,
 
         LIFT_MOTOR = 49,
 
