@@ -9,7 +9,7 @@ public class Constants {
 
         REV_THROUGH_BORE_ENCODER = 16,
 
-        BALL_INTAKE_MOTOR = 69,
+        BALL_INTAKE_MOTOR = 18,
 
         CORAL_INTAKE_MOTOR = 59,
 
