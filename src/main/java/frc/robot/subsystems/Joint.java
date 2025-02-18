@@ -40,9 +40,7 @@ public class Joint extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Absolute", getEncoderValue());
-    SmartDashboard.putNumber("Rotar", mJointMotor.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("should", ((130.216 * getEncoderValue()) - 65.108));
+    SmartDashboard.putNumber("JointEncoder", ((130.216 * getEncoderValue()) - 65.108));
   }
 
   public void setSpeed(double speed) {

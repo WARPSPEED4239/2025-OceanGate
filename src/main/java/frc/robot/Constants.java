@@ -6,7 +6,7 @@ public class Constants {
         JOYSTICK = 1,
 
         JOINT_MOTOR = 16,
-        REV_THROUGH_BORE_ENCODER = 4;
+        REV_THROUGH_BORE_ENCODER = 4,
 
         JOINT_MAX = 20,
         JOINT_MIN = 21,

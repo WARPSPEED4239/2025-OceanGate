@@ -75,5 +75,6 @@ public class Lift extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("LiftLimitDown", getBottomLimit());
+    SmartDashboard.putNumber("LiftEncoder", getEncoderValue());
   }
 }

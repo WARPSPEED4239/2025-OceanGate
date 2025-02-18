@@ -7,7 +7,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -23,7 +22,7 @@ import frc.robot.commands.SetArmPosition;
 import frc.robot.subsystems.Arm;
 import frc.robot.commands.MoveLift;
 import frc.robot.commands.SetLiftPosition;
-import frc.robot.subsystems.Lift;                                              // NOAH OWES SAM 1 DOLLAR
+import frc.robot.subsystems.Lift;                                              
 
 public class RobotContainer {
     private double MaxSpeed = 0.5;//TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -43,7 +42,6 @@ public class RobotContainer {
     private final Arm mArm = new Arm();
   
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final CommandGenericHID buttonBox = new CommandGenericHID(2);
 
     public final Joint mJoint = new Joint();
     private final Lift mLift = new Lift();
@@ -92,23 +90,22 @@ public class RobotContainer {
       
         drivetrain.registerTelemetry(logger::telemeterize);
     
-        buttonBox.button(1).whileTrue(new MoveArm(mArm, 0.1));
-        buttonBox.button(2).whileTrue(new MoveArm(mArm, -0.1));
-        buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
-        buttonBox.button(4).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
-        buttonBox.button(5).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
-
-        joystick.button(6).whileTrue(new MoveLift(mLift, -0.1));
-        joystick.button(7).whileTrue(new MoveLift(mLift, 0.1));
-        buttonBox.button(8).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
-        buttonBox.button(9).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
-        buttonBox.button(10).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
-        buttonBox.button(11).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
-        buttonBox.button(12).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
-        buttonBox.button(13).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
-        buttonBox.button(14).onTrue(new JointMotorSetPosition(mJoint, 0.379));
-        buttonBox.button(15).onTrue(new JointMotorSetPosition(mJoint, 0.479));
-        buttonBox.button(16).onTrue(new JointMotorSetPosition(mJoint, 0.579));
+        joystick.button(5).whileTrue(new MoveLift(mLift, -0.1));
+        joystick.button(6).whileTrue(new MoveLift(mLift, 0.1));
+        joystick.button(3).whileTrue(new MoveArm(mArm, -0.1));
+        joystick.button(4).whileTrue(new MoveArm(mArm, 0.1));
+        buttonBox.button(1).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
+        buttonBox.button(2).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
+        buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
+        buttonBox.button(5).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        buttonBox.button(6).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
+        buttonBox.button(7).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
+        buttonBox.button(8).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
+        buttonBox.button(9).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
+        buttonBox.button(10).onTrue(new JointMotorSetPosition(mJoint, 0.379));
+        buttonBox.button(11).onTrue(new JointMotorSetPosition(mJoint, 0.479));
+        buttonBox.button(12).onTrue(new JointMotorSetPosition(mJoint, 0.579));
     }
 
     public Command getAutonomousCommand() {
