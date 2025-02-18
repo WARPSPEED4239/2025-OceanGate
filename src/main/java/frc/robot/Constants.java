@@ -5,6 +5,8 @@ public class Constants {
         XBOX_CONTROLLER = 0,
         JOYSTICK = 1,
 
+        BALL_INTAKE_MOTOR = 18,
+
         JOINT_MOTOR = 16,
         REV_THROUGH_BORE_ENCODER = 4;
 

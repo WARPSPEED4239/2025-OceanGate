@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.BallIntakeSetSpeed;
 import frc.robot.commands.JointMotorSetPosition;
 import frc.robot.commands.JointMotorSetSpeed;
 import frc.robot.commands.ResetEncoderPosition;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.BallIntake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Joint;
 import frc.robot.commands.MoveArm;
@@ -48,11 +50,14 @@ public class RobotContainer {
     public final Joint mJoint = new Joint();
     private final Lift mLift = new Lift();
 
+    private final BallIntake mBallIntake = new BallIntake();
+
     public RobotContainer() {
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
+        mBallIntake.setDefaultCommand(new BallIntakeSetSpeed(mBallIntake, 0.0));
 
         mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
         mLift.setDefaultCommand(new MoveLift(mLift, 0.0));
@@ -91,7 +96,10 @@ public class RobotContainer {
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
       
         drivetrain.registerTelemetry(logger::telemeterize);
-    
+
+        mJoystick.button(17).whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75));
+        mJoystick.button(18).whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));
+      
         buttonBox.button(1).whileTrue(new MoveArm(mArm, 0.1));
         buttonBox.button(2).whileTrue(new MoveArm(mArm, -0.1));
         buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
