@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void setOutputWithLimitSensors(double speed) {
-    mArmMotor.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(getLeftLimit()).withLimitReverseMotion(getRightLimit()));
+    mArmMotor.setControl(mDutyCycle.withOutput(speed).withLimitForwardMotion(getRightLimit()).withLimitReverseMotion(getLeftLimit()));
   }
   
   public void setPosition(double pos) {

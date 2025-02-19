@@ -7,7 +7,6 @@ public class Constants {
 
         CORAL_INTAKE_MOTOR = 17,
     
-}
         BALL_INTAKE_MOTOR = 18,
 
         JOINT_MOTOR = 16,
@@ -15,9 +14,6 @@ public class Constants {
 
         JOINT_MAX = 20,
         JOINT_MIN = 21,
-
-        BALL_INTAKE_MOTOR = 69,
-        CORAL_INTAKE_MOTOR = 59,
         
         EXTENTION_MOTOR = 15,
         

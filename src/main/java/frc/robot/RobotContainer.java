@@ -7,6 +7,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -71,10 +72,6 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        mJoystick.button(6).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 5));
-        mJoystick.button(4).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -5));
-
-
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -94,10 +91,6 @@ public class RobotContainer {
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
 
-        // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-        mJoystick.button(5).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.1));
-        mJoystick.button(3).whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.1));
         mJoint.setDefaultCommand(new ResetEncoderPosition(mJoint));
 
         xboxController.back().and(xboxController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
@@ -110,25 +103,30 @@ public class RobotContainer {
       
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        mJoystick.button(17).whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75));
-        mJoystick.button(18).whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));
-      
         joystick.button(5).whileTrue(new MoveLift(mLift, -0.1));
         joystick.button(6).whileTrue(new MoveLift(mLift, 0.1));
-        joystick.button(3).whileTrue(new MoveArm(mArm, -0.1));
-        joystick.button(4).whileTrue(new MoveArm(mArm, 0.1));
-        buttonBox.button(1).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
-        buttonBox.button(2).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
-        buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
-        buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
-        buttonBox.button(5).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
-        buttonBox.button(6).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
-        buttonBox.button(7).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
-        buttonBox.button(8).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
-        buttonBox.button(9).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
-        buttonBox.button(10).onTrue(new JointMotorSetPosition(mJoint, 0.379));
-        buttonBox.button(11).onTrue(new JointMotorSetPosition(mJoint, 0.479));
-        buttonBox.button(12).onTrue(new JointMotorSetPosition(mJoint, 0.579));
+        joystick.button(4).whileTrue(new MoveArm(mArm, -0.1));
+        joystick.button(3).whileTrue(new MoveArm(mArm, 0.1));
+        joystick.povUp().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.5));
+        joystick.povDown().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.5));
+        joystick.povDown().whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75));
+        joystick.povUp().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));
+
+        buttonBox.button(4).onTrue(ParallelCommandGroup( new SetLiftPosition()));
+
+        //buttonBox.button(1).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
+        //buttonBox.button(1).onTrue
+        //buttonBox.button(2).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        //buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
+        //buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
+        //buttonBox.button(5).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        //buttonBox.button(6).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
+        //buttonBox.button(7).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
+        joystick.button(9).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
+        joystick.button(7).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
+        //buttonBox.button(10).onTrue(new JointMotorSetPosition(mJoint, 0.379));
+        //buttonBox.button(11).onTrue(new JointMotorSetPosition(mJoint, 0.479));
+        //buttonBox.button(12).onTrue(new JointMotorSetPosition(mJoint, 0.579));
     }
 
     public Command getAutonomousCommand() {
