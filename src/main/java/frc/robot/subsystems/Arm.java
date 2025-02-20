@@ -26,13 +26,13 @@ public class Arm extends SubsystemBase {
     slot0Configs.kS = 0.25;
     slot0Configs.kV = 0.12;
     slot0Configs.kA = 0.01;
-    slot0Configs.kP = 2.0;
+    slot0Configs.kP = 0.5; // 2.0
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 60;
-    motionMagicConfigs.MotionMagicAcceleration = 120;
-    motionMagicConfigs.MotionMagicJerk = 1600; //0
+    motionMagicConfigs.MotionMagicCruiseVelocity = 20; // 60
+    motionMagicConfigs.MotionMagicAcceleration = 20; //120
+    motionMagicConfigs.MotionMagicJerk = 0; //1600
 
     mArmMotor.getConfigurator().apply(talonFXConfigs);
     mArmMotor.setInverted(true);
@@ -48,8 +48,13 @@ public class Arm extends SubsystemBase {
   }
   
   public void setPosition(double pos) {
+    System.out.println(3);
     final MotionMagicVoltage request = new MotionMagicVoltage(0);
     mArmMotor.setControl(request.withPosition(pos));
+  }
+
+  public double convertAbsoluteToRotar(double rotar) {
+    return ((130.216 * rotar) - 65.108);
   }
 
   public double getEncoderValue() {
@@ -78,7 +83,7 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getEncoderValue());
+    // System.out.println(getEncoderValue());
     SmartDashboard.putBoolean("Limit Left", getLeftLimit());
     SmartDashboard.putBoolean("Limit Middle", getMiddleLimit());
     SmartDashboard.putBoolean("Limit Right", getRightLimit());

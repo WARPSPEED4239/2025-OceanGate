@@ -7,15 +7,18 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.CoralWheelsSetSpeed;
+import frc.robot.commands.KeepLiftPosition;
 import frc.robot.commands.BallIntakeSetSpeed;
-import frc.robot.commands.JointMotorSetPosition;
-import frc.robot.commands.JointMotorSetSpeed;
+import frc.robot.commands.SetJointPosition;
+import frc.robot.commands.MoveJoint;
 import frc.robot.commands.ResetEncoderPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BallIntake;
@@ -65,7 +68,8 @@ public class RobotContainer {
         mBallIntake.setDefaultCommand(new BallIntakeSetSpeed(mBallIntake, 0.0));
 
         mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
-        mLift.setDefaultCommand(new MoveLift(mLift, 0.0));
+        mLift.setDefaultCommand(new KeepLiftPosition(mLift));
+        mJoint.setDefaultCommand(new MoveJoint(mJoint, 0.0));
 
         configureBindings();
     }
@@ -112,7 +116,15 @@ public class RobotContainer {
         joystick.povDown().whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75));
         joystick.povUp().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));
 
-        buttonBox.button(4).onTrue(ParallelCommandGroup( new SetLiftPosition()));
+        buttonBox.button(4).onTrue(new SequentialCommandGroup(new SetLiftPosition(mLift, 132.0),
+                                                                     new SetJointPosition(mJoint, mLift, 8.0),
+                                                                     new SetArmPosition(mArm, mLift, -33.0)));
+                                                                     mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue());
+
+        buttonBox.button(7).onTrue(new SequentialCommandGroup(new SetLiftPosition(mLift, 192.0),
+                                                                     new SetJointPosition(mJoint, mLift, 9.0),
+                                                                     new SetArmPosition(mArm, mLift, -16.0)));
+                                                                     mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue());
 
         //buttonBox.button(1).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
         //buttonBox.button(1).onTrue
@@ -122,8 +134,8 @@ public class RobotContainer {
         //buttonBox.button(5).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
         //buttonBox.button(6).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
         //buttonBox.button(7).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
-        joystick.button(9).whileTrue(new JointMotorSetSpeed(mJoint, -0.1));
-        joystick.button(7).whileTrue(new JointMotorSetSpeed(mJoint, 0.1));
+        joystick.button(9).whileTrue(new MoveJoint(mJoint, -0.1));
+        joystick.button(7).whileTrue(new MoveJoint(mJoint, 0.1));
         //buttonBox.button(10).onTrue(new JointMotorSetPosition(mJoint, 0.379));
         //buttonBox.button(11).onTrue(new JointMotorSetPosition(mJoint, 0.479));
         //buttonBox.button(12).onTrue(new JointMotorSetPosition(mJoint, 0.579));

@@ -27,5 +27,5 @@ public class Constants {
 
         LIFT_MOTOR = 14;
     public static final double
-        LIFT_ENCODER_TOP_LIMIT = 230.0;
+        LIFT_ENCODER_TOP_LIMIT = 235.0;
 }

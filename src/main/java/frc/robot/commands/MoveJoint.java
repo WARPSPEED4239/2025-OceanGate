@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Joint;
 
-public class JointMotorSetSpeed extends Command {
+public class MoveJoint extends Command {
 
   private final Joint mJoint;
   private double mSpeed;
 
-  public JointMotorSetSpeed(Joint joint, double speed) {
+  public MoveJoint(Joint joint, double speed) {
     mJoint = joint;
     mSpeed = speed;
     addRequirements(mJoint);
