@@ -7,15 +7,13 @@ import frc.robot.subsystems.Lift;
 public class SetJointPosition extends Command {
 
   private final Joint mJoint;
-  private final Lift mLift;
   public boolean mEnd;
   public double mGoalPosition;
 
-  public SetJointPosition(Joint joint, Lift lift, double goalPosition) {
+  public SetJointPosition(Joint joint, double goalPosition) {
     mJoint = joint;
-    mLift = lift;
     mGoalPosition = goalPosition;
-    addRequirements(mJoint, mLift);
+    addRequirements(mJoint);
   }
 
   @Override
@@ -26,17 +24,11 @@ public class SetJointPosition extends Command {
   @Override
   public void execute() {
 
-    if (mGoalPosition < mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue()) + 0.5 && mGoalPosition > mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue()) - 0.5) {
-      mEnd = true;
-    }
+    // if (mGoalPosition < mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue()) + 0.5 && mGoalPosition > mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue()) - 0.5) {
+    //   mEnd = true;
+    // }
 
-    if (mLift.getEncoderValue() > 50.0) {
-      mJoint.setPosition(mGoalPosition);
-    } else {
-      mJoint.setPosition(mJoint.convertAbsoluteToRotar(0.0));
-      System.out.println("StockPosition");
-    }
-    
+    mJoint.setPosition(mGoalPosition);
   }
 
   @Override

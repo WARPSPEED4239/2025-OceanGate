@@ -15,7 +15,7 @@ public class Joint extends SubsystemBase {
 
   private final TalonFX mJointMotor = new TalonFX(Constants.JOINT_MOTOR);
   private final DutyCycleOut mDutyCycle = new DutyCycleOut(0.0);
-  private final DutyCycleEncoder mAbsoluteEncoder = new DutyCycleEncoder(4);
+  private final DutyCycleEncoder mAbsoluteEncoder = new DutyCycleEncoder(Constants.REV_THROUGH_BORE_ENCODER);
 
   public Joint() {
     var talonFXConfigs = new TalonFXConfiguration();
@@ -29,9 +29,9 @@ public class Joint extends SubsystemBase {
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 5; //80
-    motionMagicConfigs.MotionMagicAcceleration = 20; //160
-    motionMagicConfigs.MotionMagicJerk = 0; //1600
+    motionMagicConfigs.MotionMagicCruiseVelocity = 40; //80
+    motionMagicConfigs.MotionMagicAcceleration = 50; //160
+    motionMagicConfigs.MotionMagicJerk = 1600; //1600
 
     mJointMotor.getConfigurator().apply(talonFXConfigs);
     mJointMotor.setInverted(true);

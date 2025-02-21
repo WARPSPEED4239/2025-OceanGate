@@ -9,7 +9,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -60,15 +62,15 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        mCoralIntake.setDefaultCommand(new CoralWheelsSetSpeed(mCoralIntake, 0.0));
-
+        
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
         mainCamera.setResolution(320, 240);
         mainCamera.setFPS(10);
+        
         mBallIntake.setDefaultCommand(new BallIntakeSetSpeed(mBallIntake, 0.0));
-
+        mCoralIntake.setDefaultCommand(new CoralWheelsSetSpeed(mCoralIntake, 0.0));
         mArm.setDefaultCommand(new MoveArm(mArm, 0.0));
-        mLift.setDefaultCommand(new KeepLiftPosition(mLift));
+        mLift.setDefaultCommand(new MoveLift(mLift, 0.0));
         mJoint.setDefaultCommand(new MoveJoint(mJoint, 0.0));
 
         configureBindings();
@@ -111,31 +113,75 @@ public class RobotContainer {
         joystick.button(6).whileTrue(new MoveLift(mLift, 0.1));
         joystick.button(4).whileTrue(new MoveArm(mArm, -0.1));
         joystick.button(3).whileTrue(new MoveArm(mArm, 0.1));
-        joystick.povUp().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.5));
-        joystick.povDown().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.5));
+        joystick.povUp().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.5));
+        joystick.povDown().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.5));
         joystick.povDown().whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75));
         joystick.povUp().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));
 
-        buttonBox.button(4).onTrue(new SequentialCommandGroup(new SetLiftPosition(mLift, 132.0),
-                                                                     new SetJointPosition(mJoint, mLift, 8.0),
-                                                                     new SetArmPosition(mArm, mLift, -33.0)));
-                                                                     mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue());
+        // buttonBox.button(1).onTrue(Commands.parallel(new SetLiftPosition(mLift, 0.0),
+        //                                                     new SetJointPosition(mJoint, -3.0),
+        //                                                     new SetArmPosition(mArm, 0.0)));
 
-        buttonBox.button(7).onTrue(new SequentialCommandGroup(new SetLiftPosition(mLift, 192.0),
-                                                                     new SetJointPosition(mJoint, mLift, 9.0),
-                                                                     new SetArmPosition(mArm, mLift, -16.0)));
-                                                                     mJoint.convertAbsoluteToRotar(mJoint.getEncoderValue());
+        buttonBox.button(1).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 45.0),
+                                                                                                             new SetArmPosition(mArm, 0.0),
+                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                           new WaitCommand(2)),
+                                                                                        
+                                                                    Commands.parallel(new SetLiftPosition(mLift, 0.0),
+                                                                                      new SetArmPosition(mArm, 0.0),
+                                                                                      new SetJointPosition(mJoint, -3.0))));
 
-        //buttonBox.button(1).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
-        //buttonBox.button(1).onTrue
-        //buttonBox.button(2).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
-        //buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
-        //buttonBox.button(4).onTrue(new SetLiftPosition(mLift, 0.1, -0.1));
-        //buttonBox.button(5).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
-        //buttonBox.button(6).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
-        //buttonBox.button(7).onTrue(new SetLiftPosition(mLift, 0.1, 90.0));
+        buttonBox.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 27.5),
+                                                                                                             new SetArmPosition(mArm, 0.0),
+                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                           new WaitCommand(2)),
+
+                                                                     new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 27.5),
+                                                                                                             new SetArmPosition(mArm, 30.0),
+                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                           new WaitCommand(2)),   
+
+                                                                     Commands.parallel(new SetLiftPosition(mLift, 27.5),
+                                                                                       new SetArmPosition(mArm, 61.0),
+                                                                                       new SetJointPosition(mJoint, -6.0))));
+
+        buttonBox.button(3).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 50.0),
+                                                                                                             new SetArmPosition(mArm, 45.0),
+                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                           new WaitCommand(2)),
+
+                                                                     Commands.parallel(new SetLiftPosition(mLift, 50.0),
+                                                                                       new SetArmPosition(mArm, 45.0),
+                                                                                       new SetJointPosition(mJoint, 30.0))));
+    
+        buttonBox.button(4).onTrue(Commands.parallel(new SetLiftPosition(mLift, 132.0), //Level 2 Coral
+                                                            new SetJointPosition(mJoint, 8.0), //ALL AT ONCE
+                                                            new SetArmPosition(mArm, -33.0)));
+
+        buttonBox.button(5).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 10.0),
+                                                                                                             new SetArmPosition(mArm, 0.0),
+                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                           new WaitCommand(2)),
+                                                                    
+                                                                    Commands.parallel(new SetLiftPosition(mLift, 0.0),
+                                                                                      new SetArmPosition(mArm, 0.0),
+                                                                                      new SetJointPosition(mJoint, -3.0))));
+                            
+        buttonBox.button(7).onTrue(Commands.parallel(new SetLiftPosition(mLift, 195.0), //Level 3 Coral
+                                                            new SetJointPosition(mJoint, 9.0), //ALL AT ONCE
+                                                            new SetArmPosition(mArm, -16.0)));
+
+        
+        
         joystick.button(9).whileTrue(new MoveJoint(mJoint, -0.1));
         joystick.button(7).whileTrue(new MoveJoint(mJoint, 0.1));
+        joystick.button(12).onTrue(new ResetEncoderPosition(mJoint));
+
+        //buttonBox.button(1).onTrue(new SetArmPosition(mArm, 0.1, -16.0));
+        //buttonBox.button(2).onTrue(new SetArmPosition(mArm, 0.1, 0.0));
+        //buttonBox.button(3).onTrue(new SetArmPosition(mArm, 0.1, 61.0));
+        //buttonBox.button(5).onTrue(new SetLiftPosition(mLift, 0.1, 30.0));
+        //buttonBox.button(6).onTrue(new SetLiftPosition(mLift, 0.1, 60.0));
         //buttonBox.button(10).onTrue(new JointMotorSetPosition(mJoint, 0.379));
         //buttonBox.button(11).onTrue(new JointMotorSetPosition(mJoint, 0.479));
         //buttonBox.button(12).onTrue(new JointMotorSetPosition(mJoint, 0.579));

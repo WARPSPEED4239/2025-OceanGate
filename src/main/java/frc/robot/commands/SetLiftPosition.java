@@ -25,15 +25,15 @@ public class SetLiftPosition extends Command {
   @Override
   public void execute() {
 
-    if (mGoalPosition < mLift.getEncoderValue() + 2 && mGoalPosition > mLift.getEncoderValue() - 2) {
-      mEnd = true;
-    }
-
-    mLift.setPosition(mGoalPosition);
+    // if (mGoalPosition < mLift.getEncoderValue() + 2 && mGoalPosition > mLift.getEncoderValue() - 2) {
+    //   mEnd = true;
+    // }
 
     if (mLift.getBottomLimit() && mStartingPosition > mLift.getEncoderValue()) {
       mLift.setEncoderValue(0.0);
     }
+
+    mLift.setPosition(mGoalPosition);
   }
 
   @Override

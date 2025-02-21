@@ -6,17 +6,15 @@ import frc.robot.subsystems.Lift;
 
 public class SetArmPosition extends Command {
   private final Arm mArm;
-  private final Lift mLift;
   private boolean mEnd;
   public double mGoalPosition;
   public double mEncoderValue;
   double mStartingPosition;
 
-  public SetArmPosition(Arm arm, Lift lift, double GoalPosition) {
+  public SetArmPosition(Arm arm, double GoalPosition) {
     mArm = arm;
-    mLift = lift;
     mGoalPosition = GoalPosition;
-    addRequirements(mArm, mLift); 
+    addRequirements(mArm); 
   }
 
   @Override
@@ -28,9 +26,9 @@ public class SetArmPosition extends Command {
   @Override
   public void execute() {
 
-    if (mGoalPosition < mArm.getEncoderValue() + 0.5 && mGoalPosition > mArm.getEncoderValue() - 0.5) {
-      mEnd = true;
-    }
+    // if (mGoalPosition < mArm.getEncoderValue() + 0.5 && mGoalPosition > mArm.getEncoderValue() - 0.5) {
+    //   mEnd = true;
+    // }
 
     if (mArm.getLeftLimit() && mStartingPosition > mArm.getEncoderValue()) {
       mArm.setEncoderValue(-15.95);
@@ -42,11 +40,8 @@ public class SetArmPosition extends Command {
       mEnd = true;
     } 
 
-    if (mLift.getEncoderValue() > 50.0) {
-      mArm.setPosition(mGoalPosition);
-    } else {
-      mArm.stopMotor();
-    }
+    mArm.setPosition(mGoalPosition);
+
   }
 
   @Override

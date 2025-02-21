@@ -17,9 +17,6 @@ public class KeepLiftPosition extends Command {
   @Override
   public void initialize() {
     mStartingPosition = mLift.getEncoderValue();
-    if (mStartingPosition < 0.0) {
-      mStartingPosition = 0.0;
-    }
     mEnd = false;
   }
 

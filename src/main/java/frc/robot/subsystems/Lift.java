@@ -58,7 +58,7 @@ public class Lift extends SubsystemBase {
   }
 
   public boolean getBottomLimit() {
-    return mBottomLimit.get();
+    return !mBottomLimit.get();
   }
 
   public boolean getTopLimit() {

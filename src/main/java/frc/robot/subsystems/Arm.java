@@ -26,13 +26,13 @@ public class Arm extends SubsystemBase {
     slot0Configs.kS = 0.25;
     slot0Configs.kV = 0.12;
     slot0Configs.kA = 0.01;
-    slot0Configs.kP = 0.5; // 2.0
+    slot0Configs.kP = 2.0; // 2.0
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 20; // 60
-    motionMagicConfigs.MotionMagicAcceleration = 20; //120
-    motionMagicConfigs.MotionMagicJerk = 0; //1600
+    motionMagicConfigs.MotionMagicCruiseVelocity = 60; // 60
+    motionMagicConfigs.MotionMagicAcceleration = 120; //120
+    motionMagicConfigs.MotionMagicJerk = 1600; //1600
 
     mArmMotor.getConfigurator().apply(talonFXConfigs);
     mArmMotor.setInverted(true);
