@@ -29,9 +29,9 @@ public class Joint extends SubsystemBase {
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 10; //40
-    motionMagicConfigs.MotionMagicAcceleration = 10; //50
-    motionMagicConfigs.MotionMagicJerk = 1600; //1600
+    motionMagicConfigs.MotionMagicCruiseVelocity = 40.0; //40
+    motionMagicConfigs.MotionMagicAcceleration = 50.0; //50
+    motionMagicConfigs.MotionMagicJerk = 0; //1600
 
     mJointMotor.getConfigurator().apply(talonFXConfigs);
     mJointMotor.setInverted(true);

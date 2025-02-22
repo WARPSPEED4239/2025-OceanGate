@@ -49,6 +49,7 @@ public class SetAllPosition extends Command {
     liftEncoderPosition = mLift.getEncoderValue();
     armEncoderPosition = mArm.getEncoderValue();
     jointEncoderPosition = ((130.216 * mJoint.getRawEncoderValue()) - 65.108);
+    System.out.println(jointEncoderPosition);
 
     // if (liftEncoderPosition < 47.5) {
     //   if (armEncoderPosition < armHomePosition - 0.5 || 

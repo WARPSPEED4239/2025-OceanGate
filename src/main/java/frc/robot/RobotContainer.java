@@ -110,7 +110,7 @@ public class RobotContainer {
 
         joystick.button(5).whileTrue(new MoveLift(mLift, -0.1));
         joystick.button(6).whileTrue(new MoveLift(mLift, 0.1));
-        //joystick.button(4).whileTrue(new MoveArm(mArm, -0.1));
+        joystick.button(4).whileTrue(new MoveArm(mArm, -0.1));
         joystick.button(3).whileTrue(new MoveArm(mArm, 0.1));
         joystick.povUp().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.5));
         joystick.povDown().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.5));
@@ -123,52 +123,57 @@ public class RobotContainer {
 
         // joystick.button(2).onTrue(new SetAllPosition(mLift, mArm, mJoint, 0.0, 0.0, -3.0)); //Bottom Hold Position
 
-        // buttonBox.button(4).onTrue(new SetAllPosition(mLift, mArm, mJoint, 132.0, 8.0, -33.0)); //Coral Level 2
+        buttonBox.button(1).onTrue(new SetAllPosition(mLift, mArm, mJoint, 65.0, -5.0, -14.0)); //Coral Intake
+
+        buttonBox.button(3).onTrue(new SetAllPosition(mLift, mArm, mJoint, 50.0, 45.0, 32.0)); //Ball Up //28
+
+        buttonBox.button(4).onTrue(new SetAllPosition(mLift, mArm, mJoint, 136.0, -16.0, 8.0)); //Coral Level 2
+        
+        buttonBox.button(7).onTrue(new SetAllPosition(mLift, mArm, mJoint, 190.0, -16.0, 7.0)); //Coral Level 3
 
         joystick.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 45.0),
                                                                                                              new SetArmPosition(mArm, 0.0),
-                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                                             new SetJointPosition(mJoint, -3.0)), //-3
                                                                                            new WaitCommand(2)),
                                                                                         
                                                                     Commands.parallel(new SetLiftPosition(mLift, 0.0),
                                                                                       new SetArmPosition(mArm, 0.0),
-                                                                                      new SetJointPosition(mJoint, -3.0))));
+                                                                                      new SetJointPosition(mJoint, -3.0)))); //-3
 
-        buttonBox.button(1).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 45.0),
-                                                                                                             new SetArmPosition(mArm, 0.0),
-                                                                                                             new SetJointPosition(mJoint, -3.0)),
-                                                                                           new WaitCommand(2)),
+        // buttonBox.button(1).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 45.0),
+        //                                                                                                      new SetArmPosition(mArm, 0.0),
+        //                                                                                                      new SetJointPosition(mJoint, -3.0)),
+        //                                                                                    new WaitCommand(2)),
                                                                                         
-                                                                    Commands.parallel(new SetLiftPosition(mLift, 65.0),
-                                                                                      new SetArmPosition(mArm, -5.0),
-                                                                                      new SetJointPosition(mJoint, -14.0))));
-
+        //                                                             Commands.parallel(new SetLiftPosition(mLift, 65.0),
+        //                                                                               new SetArmPosition(mArm, -5.0),
+        //                                                                               new SetJointPosition(mJoint, -14.0))));
         buttonBox.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 27.5),
                                                                                                              new SetArmPosition(mArm, 0.0),
-                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                                             new SetJointPosition(mJoint, 1.0)), //-3
                                                                                            new WaitCommand(2)),
 
-                                                                     new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 27.5),
+                                                                     new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 30.0), //27.5
                                                                                                              new SetArmPosition(mArm, 30.0),
-                                                                                                             new SetJointPosition(mJoint, -3.0)),
+                                                                                                             new SetJointPosition(mJoint, 1.0)), //-3
                                                                                            new WaitCommand(2)),   
 
-                                                                     Commands.parallel(new SetLiftPosition(mLift, 27.5),
+                                                                     Commands.parallel(new SetLiftPosition(mLift, 25.0), //27.5
                                                                                        new SetArmPosition(mArm, 61.0),
-                                                                                       new SetJointPosition(mJoint, -6.0))));
+                                                                                       new SetJointPosition(mJoint, -2.0)))); //-6
 
-        buttonBox.button(3).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 50.0),
-                                                                                                             new SetArmPosition(mArm, 45.0),
-                                                                                                             new SetJointPosition(mJoint, -3.0)),
-                                                                                           new WaitCommand(2)),
+        // buttonBox.button(3).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 50.0),
+        //                                                                                                      new SetArmPosition(mArm, 45.0),
+        //                                                                                                      new SetJointPosition(mJoint, -3.0)),
+        //                                                                                    new WaitCommand(2)),
 
-                                                                     Commands.parallel(new SetLiftPosition(mLift, 50.0),
-                                                                                       new SetArmPosition(mArm, 45.0),
-                                                                                       new SetJointPosition(mJoint, 30.0))));
+        //                                                              Commands.parallel(new SetLiftPosition(mLift, 50.0),
+        //                                                                                new SetArmPosition(mArm, 45.0),
+        //                                                                                new SetJointPosition(mJoint, 30.0))));
     
-        buttonBox.button(4).onTrue(Commands.parallel(new SetLiftPosition(mLift, 132.0), //Level 2 Coral
-                                                            new SetJointPosition(mJoint, 8.0), //ALL AT ONCE
-                                                            new SetArmPosition(mArm, -33.0)));
+        // buttonBox.button(4).onTrue(Commands.parallel(new SetLiftPosition(mLift, 132.0), //Level 2 Coral
+        //                                                     new SetJointPosition(mJoint, 8.0), //ALL AT ONCE
+        //                                                     new SetArmPosition(mArm, -33.0)));
 
         buttonBox.button(5).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 50.0),
                                                                                                              new SetArmPosition(mArm, 45.0),
@@ -179,9 +184,9 @@ public class RobotContainer {
                                                                                       new SetArmPosition(mArm, 45.0),
                                                                                       new SetJointPosition(mJoint, -3.0))));
                             
-        buttonBox.button(7).onTrue(Commands.parallel(new SetLiftPosition(mLift, 195.0), //Level 3 Coral
-                                                            new SetJointPosition(mJoint, 9.0), //ALL AT ONCE
-                                                            new SetArmPosition(mArm, -16.0)));
+        // buttonBox.button(7).onTrue(Commands.parallel(new SetLiftPosition(mLift, 195.0), //Level 3 Coral
+        //                                                     new SetJointPosition(mJoint, 9.0), //ALL AT ONCE
+        //                                                     new SetArmPosition(mArm, -16.0)));
 
         
         
