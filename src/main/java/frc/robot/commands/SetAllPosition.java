@@ -20,7 +20,7 @@ public class SetAllPosition extends Command {
   private double armEncoderPosition;
   private double jointEncoderPosition;
 
-  private final double liftHomePosition = 45.0;
+  private final double liftHomePosition = 50.0;
   private final double armHomePosition = 0.0;
   private final double jointHomePosition = -2.0;
 
@@ -36,7 +36,7 @@ public class SetAllPosition extends Command {
     armGoalPosition= armGoal;
     jointGoalPosition = jointGoal;
 
-    addRequirements(getRequirements());
+    addRequirements(mLift, mArm, mJoint);
   }
 
   @Override
@@ -66,20 +66,18 @@ public class SetAllPosition extends Command {
     // }
 
     if (liftEncoderPosition < 47.5 &&
-        (armEncoderPosition < armHomePosition - 0.5 || 
-         armEncoderPosition > armHomePosition + 0.5 ||
-         jointEncoderPosition < jointHomePosition - 0.5 ||
-         jointEncoderPosition > jointHomePosition + 0.5)) {
+        (Math.abs(armEncoderPosition - armHomePosition) > 0.5) &&
+        (Math.abs(jointEncoderPosition - jointHomePosition) > 0.5)) {
+      SmartDashboard.putBoolean("Condition1", (liftEncoderPosition < 47.5));
+      SmartDashboard.putBoolean("Condition2", (armEncoderPosition < armHomePosition - 0.5));
+      SmartDashboard.putBoolean("Condition3", (armEncoderPosition > armHomePosition + 0.5));
+      SmartDashboard.putBoolean("Condition4", (jointEncoderPosition < jointHomePosition - 0.5));
+      SmartDashboard.putBoolean("Condition5", (jointEncoderPosition > jointHomePosition + 0.5));
 
-          SmartDashboard.putBoolean("Condition1", (liftEncoderPosition < 47.5));
-          SmartDashboard.putBoolean("Condition2", (armEncoderPosition < armHomePosition - 0.5));
-          SmartDashboard.putBoolean("Condition3", (armEncoderPosition > armHomePosition + 0.5));
-          SmartDashboard.putBoolean("Condition4", (jointEncoderPosition < jointHomePosition - 0.5));
-          SmartDashboard.putBoolean("Condition5", (jointEncoderPosition > jointHomePosition + 0.5));
-          mLift.setPosition(liftHomePosition);   //45.0
-          mArm.setPosition(armHomePosition);     //0.0
-          mJoint.setPosition(jointHomePosition); //-2.0
-          mIsInHome = true;
+      mLift.setPosition(liftHomePosition); // 50.0
+      mArm.setPosition(armHomePosition); // 0.0
+      mJoint.setPosition(jointHomePosition); // -2.0
+      mIsInHome = true;
     } else {
       mLift.setPosition(liftGoalPosition);
       mArm.setPosition(armGoalPosition);
