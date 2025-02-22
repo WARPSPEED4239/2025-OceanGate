@@ -25,10 +25,6 @@ public class MoveLift extends Command {
   public void execute() {
     mMotorPosition = mLift.getEncoderValue();
 
-    if (mLift.getBottomLimit()) {
-      mLift.setEncoderValue(0.0);
-    }
-
     if(mSpeed > 0.0 && !mLift.getTopLimit()) {
       mLift.setSpeed(mSpeed);
     } else if(mSpeed < 0.0 && mMotorPosition > 0.0 && !mLift.getBottomLimit()) {

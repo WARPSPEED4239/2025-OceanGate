@@ -87,5 +87,13 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putBoolean("Limit Middle", getMiddleLimit());
     SmartDashboard.putBoolean("Limit Right", getRightLimit());
     SmartDashboard.putNumber("ArmEncoder", getEncoderValue());
+
+    if (getLeftLimit()) {
+      setEncoderValue(-16.0);
+    } else if(getMiddleLimit()) {
+      setEncoderValue(0.0);
+    } else if(getRightLimit()) {
+      setEncoderValue(61.0);
+    }
   }
 }
