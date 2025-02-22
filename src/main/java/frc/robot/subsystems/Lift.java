@@ -27,8 +27,8 @@ public class Lift extends SubsystemBase {
     slot0Configs.kP = 2.0; // 2.0
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.1;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 160; //80
-    motionMagicConfigs.MotionMagicAcceleration = 250; // 160
+    motionMagicConfigs.MotionMagicCruiseVelocity = 160; //160
+    motionMagicConfigs.MotionMagicAcceleration = 250; //250
     motionMagicConfigs.MotionMagicJerk = 1600; //0
 
     mLiftMotor.getConfigurator().apply(talonFXConfigs);

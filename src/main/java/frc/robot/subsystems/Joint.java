@@ -29,8 +29,8 @@ public class Joint extends SubsystemBase {
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 40; //80
-    motionMagicConfigs.MotionMagicAcceleration = 50; //160
+    motionMagicConfigs.MotionMagicCruiseVelocity = 10; //40
+    motionMagicConfigs.MotionMagicAcceleration = 10; //50
     motionMagicConfigs.MotionMagicJerk = 1600; //1600
 
     mJointMotor.getConfigurator().apply(talonFXConfigs);
@@ -40,7 +40,8 @@ public class Joint extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("JointEncoder", ((130.216 * getEncoderValue()) - 65.108));
+    SmartDashboard.putNumber("JointEncoderCalculated", ((130.216 * getRawEncoderValue()) - 65.108));
+    SmartDashboard.putNumber("JointEncoderRaw", (getRawEncoderValue()));
   }
 
   public void setSpeed(double speed) {
@@ -56,12 +57,12 @@ public class Joint extends SubsystemBase {
     mJointMotor.setControl(request.withPosition(pos));
   }
 
-  public double getEncoderValue() {
+  public double getRawEncoderValue() {
     return mAbsoluteEncoder.get();
   }
 
   public void resetEncoderPosition() {
-    mJointMotor.setPosition(convertAbsoluteToRotar(getEncoderValue()));
+    mJointMotor.setPosition(convertAbsoluteToRotar(getRawEncoderValue()));
   }
 
   public double convertAbsoluteToRotar(double rotar) {
