@@ -142,7 +142,7 @@ public class RobotContainer {
         //xboxController.y().onTrue(new SetAllPosition(mLift, mArm, mJoint, 100.0, 10.0,-29.5)); //Ball Down
 
         xboxController.y().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 49.0, -16.0, 0.0),
-                                                                                   new WaitCommand(2.0)),
+                                                                                   new WaitCommand(30.0)),
                                                              new SetAllPosition(mLift, mArm, mJoint, 49.0, -16.0, -29.5)));
 
         buttonBox.button(1).onTrue(new SetAllPosition(mLift, mArm, mJoint, 52.5, -5.0, -14.0)); //Coral Intake
