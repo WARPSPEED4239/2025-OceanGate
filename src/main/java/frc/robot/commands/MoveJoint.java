@@ -20,6 +20,10 @@ public class MoveJoint extends Command {
   @Override
   public void execute() {
     mJoint.setSpeed(mSpeed);
+
+    if(mSpeed == 0.0) {
+      mJoint.stopMotor();
+    }
   }
 
   @Override

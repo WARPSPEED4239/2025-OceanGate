@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.450170454545455,
-        "y": 5.455923295454545
+        "x": 7.575,
+        "y": 7.25
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.450170454545454,
-        "y": 5.455923295454545
+        "x": 6.231621203489124,
+        "y": 7.25
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.9145454545454543,
-        "y": 2.1353835227272726
+        "x": 5.15,
+        "y": 5.2
       },
       "prevControl": {
-        "x": 0.9145454545454543,
-        "y": 2.1353835227272726
+        "x": 5.745442200076671,
+        "y": 6.231336143503386
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,20 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Ball Stage Two",
+      "waypointRelativePos": 0.49974025974024927,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Ball Intake",
+      "waypointRelativePos": 0.8976623376623297,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -42,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

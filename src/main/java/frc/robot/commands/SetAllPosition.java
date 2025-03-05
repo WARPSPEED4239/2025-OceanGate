@@ -49,7 +49,7 @@ public class SetAllPosition extends Command {
     liftEncoderPosition = mLift.getEncoderValue();
     armEncoderPosition = mArm.getEncoderValue();
     jointEncoderPosition = ((130.216 * mJoint.getRawEncoderValue()) - 65.108);
-    System.out.println(jointEncoderPosition);
+    //System.out.println(jointEncoderPosition);
 
     // if (liftEncoderPosition < 47.5) {
     //   if (armEncoderPosition < armHomePosition - 0.5 || 
@@ -66,7 +66,10 @@ public class SetAllPosition extends Command {
     //   mJoint.setPosition(jointGoalPosition);
     // }
 
-    if (liftEncoderPosition < 47.5 &&
+    if(liftEncoderPosition < 57.5 && armEncoderPosition > 20.0) {
+      mLift.setPosition(liftGoalPosition);
+      mJoint.setPosition(jointGoalPosition);
+    } else if (liftEncoderPosition < 47.5 &&
         (Math.abs(armEncoderPosition - armHomePosition) > 0.5) &&
         (Math.abs(jointEncoderPosition - jointHomePosition) > 0.5)) {
       SmartDashboard.putBoolean("Condition1", (liftEncoderPosition < 47.5));

@@ -13,6 +13,7 @@ import frc.robot.Constants;
 
 public class Joint extends SubsystemBase {
 
+  // negative joint position is to left
   private final TalonFX mJointMotor = new TalonFX(Constants.JOINT_MOTOR);
   private final DutyCycleOut mDutyCycle = new DutyCycleOut(0.0);
   private final DutyCycleEncoder mAbsoluteEncoder = new DutyCycleEncoder(Constants.REV_THROUGH_BORE_ENCODER);
