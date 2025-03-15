@@ -27,7 +27,6 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BallIntake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralIntake;
-import frc.robot.subsystems.CoralLimelight;
 import frc.robot.subsystems.Joint;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.SetArmPosition;
@@ -62,7 +61,6 @@ public class RobotContainer {
 
     private final BallIntake mBallIntake = new BallIntake();
 
-    private final CoralLimelight mLimelight = new CoralLimelight();
 
     public RobotContainer() {
         NamedCommands.registerCommand("Ball Stage Two", new SetAllPosition(mLift, mArm, mJoint, 128.0, 57.8, -0.45));
@@ -136,14 +134,14 @@ public class RobotContainer {
 
         //joystick.trigger().onTrue(new SetAllPosition(mLift, mArm, mJoint, 50.0, 45.0,29.5)); //Ball Up //28
 
-        joystick.trigger().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 50.0, 0.0, 0.0),
+        joystick.trigger().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 60.0, 0.0, 0.0),
                                                                                    new WaitCommand(2.0)),
-                                                             new SetAllPosition(mLift, mArm, mJoint, 50.0, 45.0, 29.5)));
+                                                             new SetAllPosition(mLift, mArm, mJoint, 60.0, 45.0, 29.5)));
         //xboxController.y().onTrue(new SetAllPosition(mLift, mArm, mJoint, 100.0, 10.0,-29.5)); //Ball Down
 
         xboxController.y().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 49.0, -16.0, 0.0),
-                                                                                   new WaitCommand(30.0)),
-                                                             new SetAllPosition(mLift, mArm, mJoint, 49.0, -16.0, -29.5)));
+                                                                                   new WaitCommand(2.0)),
+                                                             new SetAllPosition(mLift, mArm, mJoint, 49.0, -16.0, -30.5)));
 
         buttonBox.button(1).onTrue(new SetAllPosition(mLift, mArm, mJoint, 52.5, -5.0, -14.0)); //Coral Intake
 
@@ -208,7 +206,7 @@ public class RobotContainer {
 
         joystick.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 60.0),
                                                                                                             new SetJointPosition(mJoint, 2.0)),
-                                                                                          new WaitCommand(1.5)),
+                                                                                          new WaitCommand(2.3)),
                                                                     new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 60.0),
                                                                                                              new SetArmPosition(mArm, 0.0),
                                                                                                              new SetJointPosition(mJoint, 0.0)), //-3
