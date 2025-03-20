@@ -30,5 +30,5 @@ public class Constants {
 
     public static final double
 
-        LIFT_ENCODER_TOP_LIMIT = 234.0;
+        LIFT_ENCODER_TOP_LIMIT = 201.0;
 }

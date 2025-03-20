@@ -27,7 +27,7 @@ public class MoveLift extends Command {
 
     if(mSpeed > 0.0 && !mLift.getTopLimit()) {
       mLift.setSpeed(mSpeed);
-    } else if(mSpeed < 0.0 && mMotorPosition > 0.0 && !mLift.getBottomLimit()) {
+    } else if(mSpeed < 0.0 && !mLift.getBottomLimit()) {
       mLift.setSpeed(mSpeed);
     } else {
       mLift.stopMotor();

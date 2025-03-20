@@ -7,19 +7,13 @@ import frc.robot.LimelightHelpers;
 public class CoralLimelight extends SubsystemBase {
   
   private final LimelightHelpers mCoralLimelight = new LimelightHelpers();
-  private final double KpAngle = 0.35; //Tune; too high will cause oscillations
-  private final double KpDistance = 0.10; //Tune
+  private final double KpSIDE = 0.075; //Tune; too high will cause oscillations
 
   public CoralLimelight() {}
 
-  public double getTargetingAngularVelocity(double maxAngularSpeed) {
-    double targetingAngularVelocity = mCoralLimelight.getTX("limelight-coral") * KpAngle * -1.0;
-    return targetingAngularVelocity * maxAngularSpeed;
-  }
+  public double GetLeftRightSpeed(double maxDriveSpeed, double TXWithOffset) {
 
-  public double getTargetingDistanceSpeed(double maxDriveSpeed) {
-    double targetingDistanceSpeed = mCoralLimelight.getTA("limelight-coral") * -1.0;
-    return targetingDistanceSpeed * maxDriveSpeed;
+    return -TXWithOffset * KpSIDE * maxDriveSpeed;
   }
 
   public double getTX() {
@@ -30,9 +24,13 @@ public class CoralLimelight extends SubsystemBase {
     return mCoralLimelight.getTA("limelight-coral");
   }
 
+  public double TXOffsetRight(double TA){
+    return (TA -1.56) / -0.0615;
+  }
+
   @Override
   public void periodic() {
-    System.out.println(getTX());
+    SmartDashboard.putNumber("Limelight Distance", getTA());
   }
   
 }
