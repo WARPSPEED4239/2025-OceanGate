@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,13 +28,14 @@ public class Lift extends SubsystemBase {
     slot0Configs.kP = 2.0; // 2.0
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.1;
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motionMagicConfigs.MotionMagicCruiseVelocity = 160; //160
     motionMagicConfigs.MotionMagicAcceleration = 250; //250
     motionMagicConfigs.MotionMagicJerk = 1600; //0
 
+    //mLiftMotor.setInverted(true);
     mLiftMotor.getConfigurator().apply(talonFXConfigs);
-    mLiftMotor.setInverted(true);
-    mLiftMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   public void setSpeed(double speed) {

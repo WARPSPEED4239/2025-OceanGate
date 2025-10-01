@@ -72,10 +72,25 @@ public class RobotContainer {
     private final BallIntake mBallIntake = new BallIntake();
 
     private final SendableChooser<Command> autoChooser;
-
+    
     public RobotContainer() {
-        NamedCommands.registerCommand("Coral L2", new SetAllPosition(mLift, mArm, mJoint, 97.0, -16.0, 8.0));
+        NamedCommands.registerCommand("Coral L2", new SetAllPosition(mLift, mArm, mJoint, 105.0, -16.0, 8.0));
+        NamedCommands.registerCommand("Coral L4", new SetAllPosition(mLift, mArm, mJoint, 201.0, 5.0, -1.6234896389));
         NamedCommands.registerCommand("Coral Blow", new CoralWheelsSetSpeed(mCoralIntake, 0.5));
+        NamedCommands.registerCommand("Coral Suck", new CoralWheelsSetSpeed(mCoralIntake, -0.5));
+        NamedCommands.registerCommand("Ball Blow", new BallIntakeSetSpeed(mBallIntake, 0.75));
+        NamedCommands.registerCommand("Coral Intake", new SetAllPosition(mLift, mArm, mJoint, 25.5, -5.0, -14.0));
+
+        NamedCommands.registerCommand("Tilt Arm", new SetAllPosition(mLift, mArm, mJoint, 201.0, 5.0, -8.0));
+
+        NamedCommands.registerCommand("Coral Processor", new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 23.0),
+                                                                                new SetArmPosition(mArm, 45.0),
+                                                                                new SetJointPosition(mJoint, 2.5)),
+                                                                        new WaitCommand(1.5)),
+
+                                                                            Commands.parallel(new SetLiftPosition(mLift, 3.0),
+                                                                            new SetArmPosition(mArm, 45.0),
+                                                                            new SetJointPosition(mJoint, 2.5))));
         NamedCommands.registerCommand("Home", new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 33.0),
                                                                 new SetJointPosition(mJoint, -3.0)),
                                                                 new WaitCommand(2.3)),
@@ -90,9 +105,10 @@ public class RobotContainer {
                                                                 new WaitCommand(3.0)),
                                                                 new ParallelRaceGroup(new MoveLift(mLift, -0.1),
                                                                 new WaitCommand(0.5))));
-        NamedCommands.registerCommand("AlignWithVisionLeft", new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, 1.12));
-        NamedCommands.registerCommand("AlignWithVisionRight", new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, -37.1));
-                                                           
+
+        NamedCommands.registerCommand("AlignWithVisionLeft", new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, 4.12));
+        NamedCommands.registerCommand("AlignWithVisionRight", new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, -40.0));
+
         autoChooser = AutoBuilder.buildAutoChooser();
 
         UsbCamera mainCamera = CameraServer.startAutomaticCapture();
@@ -144,18 +160,19 @@ public class RobotContainer {
       
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.button(5).whileTrue(new MoveLift(mLift, -0.5));
-        joystick.button(6).whileTrue(new MoveLift(mLift, 0.5));
+        //joystick.button(2).whileTrue(new SetLiftPosition(mLift, mLift.getEncoderValue()));
+        joystick.button(5).whileTrue(new MoveLift(mLift, -0.1));
+        joystick.button(6).whileTrue(new MoveLift(mLift, 0.1));
         joystick.button(4).whileTrue(new MoveArm(mArm, -0.1));
         joystick.button(3).whileTrue(new MoveArm(mArm, 0.1));
         joystick.button(11).onTrue(new ESTOPNOWSTOPTHEMOTORSNOOOAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHH(mLift, mArm, mJoint));
         joystick.povUp().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.5));  //Button 6
         joystick.povDown().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.5));     //Button 7
-        joystick.povDown().whileTrue(new BallIntakeSetSpeed(mBallIntake, 0.75)); //Button 4
-        joystick.povUp().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75));        //Button 3
+        joystick.povDown().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75)); //Button 4
+        joystick.povUp().whileTrue(new BallIntakeSetSpeed(mBallIntake, 1.0));        //Button 3
 
-        xboxController.povLeft().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, 1.12)); //1.22
-        xboxController.povRight().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, -37.1));
+        xboxController.povLeft().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, 4.12)); //1.22
+        xboxController.povRight().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, -40.0));
         // buttonBox.button(1).onTrue(Commands.parallel(new SetLiftPosition(mLift, 0.0),
         //                                                     new SetJointPosition(mJoint, -3.0),
         //                                                     new SetArmPosition(mArm, 0.0)));
@@ -164,16 +181,30 @@ public class RobotContainer {
 
         //joystick.trigger().onTrue(new SetAllPosition(mLift, mArm, mJoint, 50.0, 45.0,29.5)); //Ball Up //28
 
-        joystick.trigger().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 33.0, 0.0, 0.0),
+        joystick.trigger().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 33.0, 45.0, 0.0),
                                                                                    new WaitCommand(2.0)),
                                                              new SetAllPosition(mLift, mArm, mJoint, 33.0, 45.0, 31.0)));
-        //xboxController.y().onTrue(new SetAllPosition(mLift, mArm, mJoint, 100.0, 10.0,-29.5)); //Ball Down
 
-        xboxController.y().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 22.0, -16.0, 0.0),
-                                                                                   new WaitCommand(2.0)),
-                                                             new SetAllPosition(mLift, mArm, mJoint, 22.0, -16.0, -32.0)));
+        // xboxController.y().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 22.0, -16.0, 0.0),
+        //                                                                            new WaitCommand(2.0)),
+        //                                                      new SetAllPosition(mLift, mArm, mJoint, 22.0, -16.0, -32.0)));
 
-        buttonBox.button(1).onTrue(new SetAllPosition(mLift, mArm, mJoint, 25.5, -5.0, -14.0)); //Coral Intake
+        //xboxController.y().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 75.39, 0.0, 0.0),
+        //                                                                             new WaitCommand(2.0)),
+        //                                                                             new SetAllPosition(mLift, mArm, mJoint, 75.39, 48.62, -31.435)));
+
+        // //xboxController.x().whileTrue(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 20.0),
+        //                                                                 new SetArmPosition(mArm, 48.62),
+        //                                                                 new SetJointPosition(mJoint, -31.435)), //-3
+        //                                                 new WaitCommand(3)));
+
+        // buttonBox.button(1).onTrue(new SetAllPosition(mLift, mArm, mJoint, 19.0, -5.0, -16.0)); //Coral Intake\
+
+        buttonBox.button(1).onTrue((new SequentialCommandGroup(new ParallelRaceGroup(new SetAllPosition(mLift, mArm, mJoint, 23.0, -8.0, -14.0),
+                                                                                     new WaitCommand(0.5)),
+                                                               Commands.parallel(new SetLiftPosition(mLift, 22.0),
+                                                                                 new SetArmPosition(mArm, -8.0),
+                                                                                 new SetJointPosition(mJoint, -14.0)))));
 
         buttonBox.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 13.0),
                                                                                                              new SetArmPosition(mArm, 0.0),
@@ -222,7 +253,11 @@ public class RobotContainer {
                                                                                             new WaitCommand(1.5)), 
                                             new SetAllPosition(mLift, mArm, mJoint, 142.0, 30.0, -5.0)));  //Aux Coral 2
 
-        buttonBox.button(10).onTrue((new SetAllPosition(mLift, mArm, mJoint, 201.0, 8.0, -1.6234896389))); //Coral Level 3
+        buttonBox.button(10).onTrue((new SetAllPosition(mLift, mArm, mJoint, 201.0, 5.0, -0.5))); //Coral Level 3
+
+        xboxController.x().onTrue((new SetAllPosition(mLift, mArm, mJoint, 201.0, 5.0, -8.0))); //Coral Level 3
+
+        xboxController.x().onFalse((new SetAllPosition(mLift, mArm, mJoint, 201.0, 5.0, -0.5)));
 
         //buttonBox.button(11).onTrue(new SetAllPosition(mLift, mArm, mJoint, 180.314, 57.79, -0.44)); //Ball Level 3
 
@@ -230,11 +265,9 @@ public class RobotContainer {
                                                                                             new WaitCommand(1.5)), 
                                             new SetAllPosition(mLift, mArm, mJoint, 153.314, 57.79, -0.44)));
 
-        buttonBox.button(12).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new SetLiftPosition(mLift, 183.0), //Auxillary Coral 3
-                                                                                            new WaitCommand(1.5)), 
-                                            new SetAllPosition(mLift, mArm, mJoint, 183.0, 21.5, -1.5)));
+        buttonBox.button(12).onTrue(new SetAllPosition(mLift, mArm, mJoint, 201.0, 50.0, 25.0));
 
-        joystick.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 33.0),
+        /* put back in joystick.button(2).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 33.0),
                                                                                                             new SetJointPosition(mJoint, -3.0)),
                                                                                           new WaitCommand(2.3)),
                                                                     new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 33.0),
@@ -247,7 +280,7 @@ public class RobotContainer {
                                                                                                     new SetJointPosition(mJoint, -3.0)),
                                                                                   new WaitCommand(3.0)),
                                                             new ParallelRaceGroup(new MoveLift(mLift, -0.1),
-                                                                new WaitCommand(0.5)))); //-3
+                                                                new WaitCommand(0.5)))); //-3*/
 
 
         buttonBox.button(5).onTrue(new SequentialCommandGroup(new ParallelRaceGroup(Commands.parallel(new SetLiftPosition(mLift, 23.0),

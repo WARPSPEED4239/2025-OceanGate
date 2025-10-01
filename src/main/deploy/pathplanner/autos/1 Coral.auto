@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Go To Reef"
+            "pathName": "Start - Reef (9pm)"
           }
         },
         {
@@ -36,13 +36,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Coral L2"
+                  "name": "Coral L4"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 10.0
+                  "waitTime": 5.0
                 }
               }
             ]
@@ -68,19 +68,26 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "Home"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 10.0
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Home"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 5.0
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -90,6 +97,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Coral",
   "choreoAuto": false
 }

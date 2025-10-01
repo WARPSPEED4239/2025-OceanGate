@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -29,14 +30,15 @@ public class Joint extends SubsystemBase {
     slot0Configs.kP = 2.0;
     slot0Configs.kI = 0.0;
     slot0Configs.kD = 0.05;
+    talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    talonFXConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
     motionMagicConfigs.MotionMagicCruiseVelocity = 40.0; //40
     motionMagicConfigs.MotionMagicAcceleration = 50.0; //50
     motionMagicConfigs.MotionMagicJerk = 0; //1600
 
+    //mJointMotor.setInverted(true);
     mJointMotor.getConfigurator().apply(talonFXConfigs);
-    mJointMotor.setInverted(true);
-    mJointMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override

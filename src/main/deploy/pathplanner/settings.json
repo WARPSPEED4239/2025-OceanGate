@@ -2,8 +2,15 @@
   "robotWidth": 0.81,
   "robotLength": 0.97,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "Reef -",
+    "Start -"
+  ],
+  "autoFolders": [
+    "Coral",
+    "Algae",
+    "Park"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
