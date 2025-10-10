@@ -157,6 +157,7 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         xboxController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        //xboxController.leftBumper().onTrue(new SetLiftPosition(mLift, mLift.getEncoderValue()));
       
         drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -168,16 +169,17 @@ public class RobotContainer {
         joystick.button(11).onTrue(new ESTOPNOWSTOPTHEMOTORSNOOOAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHH(mLift, mArm, mJoint));
         joystick.povUp().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, 0.5));  //Button 6
         joystick.povDown().whileTrue(new CoralWheelsSetSpeed(mCoralIntake, -0.5));     //Button 7
-        joystick.povDown().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75)); //Button 4
-        joystick.povUp().whileTrue(new BallIntakeSetSpeed(mBallIntake, 1.0));        //Button 3
+        joystick.povLeft().whileTrue(new BallIntakeSetSpeed(mBallIntake, -0.75)); //Button 4
+        joystick.povRight().whileTrue(new BallIntakeSetSpeed(mBallIntake, 1.0));        //Button 3
+        joystick.button(10).onTrue(NamedCommands.getCommand("AlignWithVisionLeft"));
 
-        xboxController.povLeft().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, 4.12)); //1.22
-        xboxController.povRight().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.5, -40.0));
+        xboxController.povLeft().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.3, 4.12)); //1.22
+        xboxController.povRight().whileTrue(new CoralLeftLimelight(mCoralLimelight, drivetrain, limelightDrive, 0.3, -40.0));
         // buttonBox.button(1).onTrue(Commands.parallel(new SetLiftPosition(mLift, 0.0),
         //                                                     new SetJointPosition(mJoint, -3.0),
         //                                                     new SetArmPosition(mArm, 0.0)));
 
-        // joystick.button(2).onTrue(new SetAllPosition(mLift, mArm, mJoint, 0.0, 0.0, -3.0)); //Bottom Hold Position
+        joystick.button(2).onTrue(new SetAllPosition(mLift, mArm, mJoint, 0.0, 0.0, -3.0)); //Bottom Hold Position
 
         //joystick.trigger().onTrue(new SetAllPosition(mLift, mArm, mJoint, 50.0, 45.0,29.5)); //Ball Up //28
 
